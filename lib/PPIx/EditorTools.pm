@@ -11,7 +11,34 @@ use Class::XSAccessor
 use PPI;
 use PPIx::EditorTools::ReturnObject;
 
-our $VERSION = 0.02;
+our $VERSION = 0.03;
+
+=pod
+
+=head1 NAME
+
+PPIx::EditorTools - Utility methods and base class for manipulating Perl via PPI
+
+=head1 SYNOPSIS
+
+    See PPIx::EditorTools::* 
+
+=head1 DESCRIPTION
+
+Base class and utility methods for manipulating Perl via PPI. Pulled out from
+the C<Padre::Task::PPI> code.
+
+=head1 METHODS
+
+=over 4
+
+=item new()
+
+Constructor. Generally shouldn't be called with any arguments.
+
+=back
+
+=cut
 
 # Used by all the PPIx::EditorTools::* modules
 # Checks for either PPI::Document or take the code as a string and
@@ -281,6 +308,26 @@ sub find_variable_declaration {
 }
 
 1;
+
+__END__
+
+=head1 SEE ALSO
+
+C<PPIx::EditorTools::*>, L<Padre>, L<App::EditorTools>, L<Padre>, and L<PPI>.
+
+=head1 AUTHOR
+
+Steffen Mueller C<smueller@cpan.org>.
+Repackaged by Mark Grimes C<mgrimes@cpan.org>.
+
+=head1 COPYRIGHT AND LICENSE
+
+Copyright 2008-2009 The Padre development team as listed in Padre.pm.
+
+This program is free software; you can redistribute it and/or
+modify it under the same terms as Perl 5 itself.
+
+=cut
 
 # Copyright 2008-2009 The Padre development team as listed in Padre.pm.
 # LICENSE

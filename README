@@ -1,27 +1,28 @@
 NAME
-    App::LexicalVarReplace - Lexically replace a variable name in Perl code
+    PPIx::EditorTools - Utility methods and base class for manipulating Perl
+    via PPI
 
 SYNOPSIS
-        print App::LexicalVarReplace->new( code => $doc_as_str )->replace_var(
-            column      => $column,
-            line        => $line,
-            replacement => $replacement,
-        );
+        See PPIx::EditorTools::* 
 
 DESCRIPTION
-    This module will lexically replace a variable name. The code is nearly
-    100% ripped from Padre::Task::PPI::LexicalReplaceVariable.
+    Base class and utility methods for manipulating Perl via PPI. Pulled out
+    from the `Padre::Task::PPI' code.
+
+METHODS
+    new()
+        Constructor. Generally shouldn't be called with any arguments.
 
 SEE ALSO
-    App::LexicalVarReplace::Vim, Padre, and PPI.
+    `PPIx::EditorTools::*', Padre, App::EditorTools, Padre, and PPI.
 
 AUTHOR
-    Mark Grimes, <mgrimes@cpan.org>
+    Steffen Mueller `smueller@cpan.org'. Repackaged by Mark Grimes
+    `mgrimes@cpan.org'.
 
 COPYRIGHT AND LICENSE
-    Copyright (C) 2009 by Mark Grimes
+    Copyright 2008-2009 The Padre development team as listed in Padre.pm.
 
-    This library is free software; you can redistribute it and/or modify it
-    under the same terms as Perl itself, either Perl version 5.8.2 or, at
-    your option, any later version of Perl 5 you may have available.
+    This program is free software; you can redistribute it and/or modify it
+    under the same terms as Perl 5 itself.
 

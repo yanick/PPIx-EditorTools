@@ -7,7 +7,6 @@ lib/PPIx/EditorTools/IntroduceTemporaryVariable.pm
 lib/PPIx/EditorTools/RenamePackage.pm
 lib/PPIx/EditorTools/RenamePackageFromPath.pm
 lib/PPIx/EditorTools/RenameVariable.pm
-lib/PPIx/EditorTools/UpdateCopyright.pm
 MANIFEST			This list of files
 META.yml
 README
@@ -19,3 +18,4 @@ t/10-renamepackage.t
 t/10-renamepackagefrompath.t
 t/10-renamevariable.t
 TODO
+Makefile.PL
