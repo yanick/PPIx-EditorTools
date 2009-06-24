@@ -1,0 +1,23 @@
+---
+name: App-LexicalVarReplace
+version: 0.1
+author:
+  - 'Mark Grimes, E<lt>mgrimes@cpan.orgE<gt>'
+abstract: Lexically replace a variable name in Perl code
+license: perl
+resources:
+  license: http://dev.perl.org/licenses/
+requires:
+  MooseX::Declare: 0
+  PPI: 0
+  Padre::PPI: 0.05
+  perl: 5.010
+build_requires:
+  Test::Differences: 0
+provides:
+  App::LexicalVarReplace::Vim:
+    file: lib/App/LexicalVarReplace/Vim.pm
+generated_by: Module::Build version 0.32
+meta-spec:
+  url: http://module-build.sourceforge.net/META-spec-v1.2.html
+  version: 1.2

@@ -1,0 +1,21 @@
+Build.PL
+INSTALL
+lib/PPIx/EditorTools.pm
+lib/PPIx/EditorTools/FindUnmatchedBrace.pm
+lib/PPIx/EditorTools/FindVariableDeclaration.pm
+lib/PPIx/EditorTools/IntroduceTemporaryVariable.pm
+lib/PPIx/EditorTools/RenamePackage.pm
+lib/PPIx/EditorTools/RenamePackageFromPath.pm
+lib/PPIx/EditorTools/RenameVariable.pm
+lib/PPIx/EditorTools/UpdateCopyright.pm
+MANIFEST			This list of files
+META.yml
+README
+t/00-use.t
+t/10-findunmatchedbrace.t
+t/10-findvariabledeclaration.t
+t/10-introducetemporaryvariable.t
+t/10-renamepackage.t
+t/10-renamepackagefrompath.t
+t/10-renamevariable.t
+TODO
