@@ -9,7 +9,7 @@ use Class::XSAccessor accessors => { 'replacement' => 'replacement' };
 use PPI;
 use Carp;
 
-our $VERSION = '0.02';
+our $VERSION = '0.04';
 
 =pod
 
