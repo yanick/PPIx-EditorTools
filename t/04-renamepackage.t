@@ -79,6 +79,9 @@ SHINY_REPLACEMENT
 TODO: {
     local $TODO = 'RenamePackage does not support MooseX::Declare yet';
 
+    # The unimplemented stuff throws warnings
+    local $^W = 0;
+
     my $result = eval {
         my $munged = 
         PPIx::EditorTools::RenamePackage->new->rename(
