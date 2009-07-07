@@ -3,22 +3,22 @@ NAME
     via PPI
 
 SYNOPSIS
-        See PPIx::EditorTools::* 
+        See PPIx::EditorTools::*
 
 DESCRIPTION
     Base class and utility methods for manipulating Perl via PPI. Pulled out
-    from the `Padre::Task::PPI' code.
+    from the "Padre::Task::PPI" code.
 
 METHODS
     new()
         Constructor. Generally shouldn't be called with any arguments.
 
 SEE ALSO
-    `PPIx::EditorTools::*', Padre, App::EditorTools, Padre, and PPI.
+    "PPIx::EditorTools::*", Padre, App::EditorTools, Padre, and PPI.
 
 AUTHOR
-    Steffen Mueller `smueller@cpan.org'. Repackaged by Mark Grimes
-    `mgrimes@cpan.org'.
+    Steffen Mueller "smueller@cpan.org". Repackaged by Mark Grimes
+    "mgrimes@cpan.org".
 
 COPYRIGHT AND LICENSE
     Copyright 2008-2009 The Padre development team as listed in Padre.pm.

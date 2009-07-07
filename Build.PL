@@ -6,7 +6,6 @@ my $build = Module::Build->new(
     create_readme      => 1,
     create_makefile_pl => 'passthrough',
     requires           => {
-        'perl' => '5.010',
         'PPI'  => 0,
         'Class::XSAccessor' => 0,
     },

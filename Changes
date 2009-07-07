@@ -1,3 +1,5 @@
+0.05 unreleased
+     remove unneeded dependency on perl 5.10 (RSN)
 
 v0.04 2009.06.25
 
