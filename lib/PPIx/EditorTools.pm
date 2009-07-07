@@ -4,14 +4,17 @@ use 5.008;
 use strict;
 use warnings;
 use Carp;
-use Class::XSAccessor
-  constructor => 'new',
-  accessors   => { 'code' => 'code', 'ppi' => 'ppi' };
+use Class::XSAccessor 1.02
+	constructor => 'new',
+	accessors   => {
+		'code' => 'code',
+		'ppi'  => 'ppi',
+	};
 
-use PPI;
+use PPI 1.203;
 use PPIx::EditorTools::ReturnObject;
 
-our $VERSION = '0.04';
+our $VERSION = '0.05';
 
 =pod
 
@@ -59,6 +62,10 @@ sub process_doc {
     croak "arguments ppi or code required";
     return;
 }
+
+
+
+
 
 #####################################################################
 # Assorted Search Functions
@@ -154,6 +161,10 @@ sub get_all_variable_declarations {
     } );
 }
 
+
+
+
+
 #####################################################################
 # Stuff that should be in PPI itself
 
@@ -225,7 +236,7 @@ sub find_variable_declaration {
         $token_str = $cursor->content;
     } else {
         my $content = $cursor->content;
-        if ( $content =~ /((?:\$#?|[@%*])[\w:']+)/ ) {
+        if ( $content =~ /((?:\$#?|[@%*])[\w:\']+)/ ) {
             $varname   = $1;
             $token_str = $1;
         }
@@ -311,21 +322,24 @@ sub find_variable_declaration {
 
 __END__
 
+=pod
+
 =head1 SEE ALSO
 
 C<PPIx::EditorTools::*>, L<Padre>, L<App::EditorTools>, L<Padre>, and L<PPI>.
 
 =head1 AUTHOR
 
-Steffen Mueller C<smueller@cpan.org>.
-Repackaged by Mark Grimes C<mgrimes@cpan.org>.
+Steffen Mueller C<smueller@cpan.org>
+
+Repackaged by Mark Grimes C<mgrimes@cpan.org>
 
 =head1 COPYRIGHT AND LICENSE
 
 Copyright 2008-2009 The Padre development team as listed in Padre.pm.
 
 This program is free software; you can redistribute it and/or
-modify it under the same terms as Perl 5 itself.
+modify it under the same terms as Perl itself.
 
 =cut
 

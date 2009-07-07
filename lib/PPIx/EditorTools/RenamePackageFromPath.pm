@@ -1,7 +1,9 @@
 package PPIx::EditorTools::RenamePackageFromPath;
 
+use 5.008;
 use strict;
 use warnings;
+use Carp;
 
 use Class::XSAccessor accessors => {
     'replacement' => 'replacement',
@@ -14,7 +16,7 @@ use Carp;
 use File::Spec;
 use File::Basename;
 
-our $VERSION = '0.04';
+our $VERSION = '0.05';
 
 =pod
 
@@ -25,7 +27,9 @@ PPIx::EditorTools::RenamePackageFromPath - Change the package name based on the 
 =head1 SYNOPSIS
     
     my $munged = PPIx::EditorTools::RenamePackageFromPath->new->rename(
-        code        => "package TestPackage;\nuse strict;\nuse warnings;\n1;\n",
+        code        => "package TestPackage;\nuse strict;\nBEGIN {
+	$^W = 1;
+}\n1;\n",
         filename => './lib/Test/Code/Path.pm',
     );
 

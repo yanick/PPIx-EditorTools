@@ -1,5 +1,6 @@
 package PPIx::EditorTools::FindVariableDeclaration;
 
+use 5.008;
 use strict;
 use warnings;
 use Carp;
@@ -7,7 +8,7 @@ use Carp;
 use base 'PPIx::EditorTools';
 use Class::XSAccessor accessors => { 'location' => 'location' };
 
-our $VERSION = '0.04';
+our $VERSION = '0.05';
 
 =pod
 
@@ -20,7 +21,9 @@ PPIx::EditorTools::FindVariableDeclaration - Finds where a variable was declared
   # finds declaration of variable at cursor
   my $declaration = PPIx::EditorTools::FindVariableDeclaration->new->find(
     code =>
-      "package TestPackage;\nuse strict;\nuse warnings;\nmy \$x=1;\n\$x++;"
+      "package TestPackage;\nuse strict;\nBEGIN {
+	$^W = 1;
+}\nmy \$x=1;\n\$x++;"
     line => 5,
     column => 2,
   );

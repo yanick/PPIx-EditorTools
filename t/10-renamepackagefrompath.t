@@ -1,17 +1,23 @@
 #!/usr/bin/perl
 
 use strict;
-use warnings;
+BEGIN {
+	$^W = 1;
+}
 
 use Test::More tests => 4;
 use Test::Differences;
 
 use PPIx::EditorTools::RenamePackageFromPath;
 
-my $code = "package TestPackage;\nuse strict;\nuse warnings;\n1;\n";
+my $code = "package TestPackage;\nuse strict;\nBEGIN {
+	$^W = 1;
+}\n1;\n";
 
 sub new_code {
-    return sprintf "package %s;\nuse strict;\nuse warnings;\n1;\n", shift;
+    return sprintf "package %s;\nuse strict;\nBEGIN {
+	$^W = 1;
+}\n1;\n", shift;
 }
 
 my $munged = PPIx::EditorTools::RenamePackageFromPath->new->rename(

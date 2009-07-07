@@ -1,7 +1,11 @@
-0.05 unreleased
-     remove unneeded dependency on perl 5.10 (RSN)
+Changes for Perl extension PPIx-EditorTools
 
-v0.04 2009.06.25
+0.05 2009.07.07
+	- Switch Changes to be more machine parsable (ADAMK)
+	- Added dependency versions
+	- Removed needless 5.10 dependency that wasn't reflected in the code
+	- Switched to Module::Install to auto-detect config from the code
 
-    Added Changes file
-    Removed MANIFEST and META.yml from repository
+0.04 2009.06.25
+	- Added Changes file
+	- Removed MANIFEST and META.yml from repository

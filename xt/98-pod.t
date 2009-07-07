@@ -1,5 +1,7 @@
 use strict;
-use warnings;
+BEGIN {
+	$^W = 1;
+}
 use Test::More;
 
 # plan( skip_all => 'Author test. Set TEST_AUTHOR to a true value to run.' )

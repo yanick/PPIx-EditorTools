@@ -1,5 +1,6 @@
 package PPIx::EditorTools::RenameVariable;
 
+use 5.008;
 use strict;
 use warnings;
 use Carp;
@@ -7,7 +8,7 @@ use Carp;
 use base 'PPIx::EditorTools'; 
 use Class::XSAccessor;
 
-our $VERSION = '0.04';
+our $VERSION = '0.05';
 
 =head1 NAME
 

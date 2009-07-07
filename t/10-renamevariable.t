@@ -1,7 +1,9 @@
 #!/usr/bin/perl
 
 use strict;
-use warnings;
+BEGIN {
+	$^W = 1;
+}
 
 use Test::More tests => 5;
 use Test::Differences;

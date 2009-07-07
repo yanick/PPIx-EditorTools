@@ -1,7 +1,9 @@
 package PPIx::EditorTools::RenamePackage;
 
 use strict;
-use warnings;
+BEGIN {
+	$^W = 1;
+}
 use base 'PPIx::EditorTools';
 
 use Class::XSAccessor accessors => { 'replacement' => 'replacement' };
@@ -9,7 +11,7 @@ use Class::XSAccessor accessors => { 'replacement' => 'replacement' };
 use PPI;
 use Carp;
 
-our $VERSION = '0.04';
+our $VERSION = '0.05';
 
 =pod
 
@@ -20,7 +22,9 @@ PPIx::EditorTools::RenamePackage - Change the package name
 =head1 SYNOPSIS
     
     my $munged = PPIx::EditorTools::RenamePackage->new->rename(
-        code        => "package TestPackage;\nuse strict;\nuse warnings;\n1;\n",
+        code        => "package TestPackage;\nuse strict;\nBEGIN {
+	$^W = 1;
+}\n1;\n",
         replacement => 'NewPackage'
     );
 

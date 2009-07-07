@@ -1,5 +1,6 @@
 package PPIx::EditorTools::IntroduceTemporaryVariable;
 
+use 5.008;
 use strict;
 use warnings;
 use Carp;
@@ -12,7 +13,7 @@ use Class::XSAccessor accessors => {
     'location'       => 'location',
 };
 
-our $VERSION = '0.04';
+our $VERSION = '0.05';
 
 =pod
 
@@ -23,7 +24,9 @@ PPIx::EditorTools::IntroduceTemporaryVariable - Introduces a temporary variable 
 =head1 SYNOPSIS
 
     my $munged = PPIx::EditorTools::IntroduceTemporaryVariable->new->introduce(
-        code           => "use strict; use warnings;\n\tmy $x = ( 1 + 10 / 12 ) * 2;\n\tmy $y = ( 3 + 10 / 12 ) * 2;\n",
+        code           => "use strict; BEGIN {
+	$^W = 1;
+}\n\tmy $x = ( 1 + 10 / 12 ) * 2;\n\tmy $y = ( 3 + 10 / 12 ) * 2;\n",
         start_location => [ 2, 19 ], 
         end_location   => [ 2, 25 ],
         varname        => '$foo',

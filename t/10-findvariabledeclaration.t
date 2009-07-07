@@ -1,7 +1,9 @@
 #!/usr/bin/perl
 
 use strict;
-use warnings;
+BEGIN {
+	$^W = 1;
+}
 
 use Test::More tests => 3;
 use Test::Differences;
@@ -9,8 +11,7 @@ use Test::Differences;
 use PPIx::EditorTools::FindVariableDeclaration;
 
 my $declaration = PPIx::EditorTools::FindVariableDeclaration->new->find(
-    code =>
-      "package TestPackage;\nuse strict;\nuse warnings;\nmy \$x=1;\n\$x++;",
+    code   => "package TestPackage;\nuse strict;\nuse warnings;\nmy \$x=1;\n\$x++;",
     line   => 5,
     column => 2,
 );

@@ -1,5 +1,6 @@
 package PPIx::EditorTools::FindUnmatchedBrace;
 
+use 5.008;
 use strict;
 use warnings;
 use Carp;
@@ -9,7 +10,7 @@ use Class::XSAccessor accessors => {};
 
 use PPI;
 
-our $VERSION = '0.04';
+our $VERSION = '0.05';
 
 =pod
 

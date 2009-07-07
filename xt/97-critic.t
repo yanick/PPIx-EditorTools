@@ -1,5 +1,7 @@
 use strict;
-use warnings;
+BEGIN {
+	$^W = 1;
+}
 use File::Spec;
 use Test::More;
 

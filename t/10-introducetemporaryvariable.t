@@ -1,7 +1,9 @@
 #!/usr/bin/perl
 
 use strict;
-use warnings;
+BEGIN {
+	$^W = 1;
+}
 
 use Test::More tests => 6;
 use Test::Differences;
@@ -9,7 +11,9 @@ use Test::Differences;
 use PPIx::EditorTools::IntroduceTemporaryVariable;
 
 my $code = <<'END_CODE';
-use strict; use warnings;
+use strict; BEGIN {
+	$^W = 1;
+}
     my $x = ( 1 + 10 / 12 ) * 2;
     my $y = ( 3 + 10 / 12 ) * 2;
 END_CODE
@@ -24,7 +28,9 @@ isa_ok( $new_code,          'PPIx::EditorTools::ReturnObject' );
 isa_ok( $new_code->element, 'PPI::Token' );
 is_deeply( $new_code->element->location, [ 2, 5, 5 ], 'temp var location' );
 eq_or_diff( $new_code->code, <<'RESULT', '10 / 12' );
-use strict; use warnings;
+use strict; BEGIN {
+	$^W = 1;
+}
     my $foo = 10 / 12;
     my $x = ( 1 + $foo ) * 2;
     my $y = ( 3 + $foo ) * 2;
@@ -38,14 +44,18 @@ $new_code = PPIx::EditorTools::IntroduceTemporaryVariable->new->introduce(
 );
 
 eq_or_diff( $new_code->code, <<'RESULT', '( 1 + 10 / 12 )' );
-use strict; use warnings;
+use strict; BEGIN {
+	$^W = 1;
+}
     my $foo = ( 1 + 10 / 12 );
     my $x = $foo * 2;
     my $y = ( 3 + 10 / 12 ) * 2;
 RESULT
 
 $code = <<'END_CODE2';
-use strict; use warnings;
+use strict; BEGIN {
+	$^W = 1;
+}
 my $x = ( 1 + 10 
     / 12 ) * 2;
 my $y = ( 3 + 10 / 12 ) * 2;
@@ -58,7 +68,9 @@ $new_code = PPIx::EditorTools::IntroduceTemporaryVariable->new->introduce(
                                     # varname        => '$foo',
 );
 eq_or_diff( $new_code->code, <<'RESULT', '( 1 + 10 \n / 12 )' );
-use strict; use warnings;
+use strict; BEGIN {
+	$^W = 1;
+}
 my $tmp = ( 1 + 10 
     / 12 );
 my $x = $tmp * 2;

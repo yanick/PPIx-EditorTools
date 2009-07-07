@@ -1,7 +1,9 @@
 #!/usr/bin/perl
 
 use strict;
-use warnings;
+BEGIN {
+	$^W = 1;
+}
 
 use Test::More tests => 5;
 use Test::Differences;
@@ -9,7 +11,9 @@ use Test::Differences;
 use PPIx::EditorTools::RenamePackage;
 
 my $munged = PPIx::EditorTools::RenamePackage->new->rename(
-    code        => "package TestPackage;\nuse strict;\nuse warnings;\n1;\n",
+    code        => "package TestPackage;\nuse strict;\nBEGIN {
+	$^W = 1;
+}\n1;\n",
     replacement => 'NewPackage'
 );
 
@@ -17,12 +21,16 @@ isa_ok( $munged,          'PPIx::EditorTools::ReturnObject' );
 isa_ok( $munged->element, 'PPI::Statement::Package' );
 eq_or_diff(
     $munged->code,
-    "package NewPackage;\nuse strict;\nuse warnings;\n1;\n",
+    "package NewPackage;\nuse strict;\nBEGIN {
+	$^W = 1;
+}\n1;\n",
     'simple package'
 );
 eq_or_diff(
     $munged->ppi->serialize,
-    "package NewPackage;\nuse strict;\nuse warnings;\n1;\n",
+    "package NewPackage;\nuse strict;\nBEGIN {
+	$^W = 1;
+}\n1;\n",
     'simple package'
 );
 
