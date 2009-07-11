@@ -1,5 +1,8 @@
 Changes for Perl extension PPIx-EditorTools
 
+0.06 2009.07.11
+       - fix MANIFEST.SKIP
+
 0.05 2009.07.07
 	- Switch Changes to be more machine parsable (ADAMK)
 	- Added dependency versions
