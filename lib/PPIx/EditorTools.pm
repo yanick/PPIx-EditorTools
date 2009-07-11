@@ -14,7 +14,7 @@ use Class::XSAccessor 1.02
 use PPI 1.203;
 use PPIx::EditorTools::ReturnObject;
 
-our $VERSION = '0.05';
+our $VERSION = '0.06';
 
 =pod
 
