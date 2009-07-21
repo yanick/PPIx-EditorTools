@@ -8,7 +8,7 @@ use Carp;
 use base 'PPIx::EditorTools';
 use Class::XSAccessor accessors => { 'location' => 'location' };
 
-our $VERSION = '0.06';
+our $VERSION = '0.07';
 
 =pod
 
