@@ -5,8 +5,18 @@ BEGIN {
 	$^W = 1;
 }
 
-use Test::More tests => 4;
+use Test::More;
 use Test::Differences;
+use PPI;
+
+BEGIN {
+	if ($PPI::VERSION =~ /_/) {
+		plan skip_all => "Need released version of PPI. You have $PPI::VERSION";
+		exit 0;
+	}
+}
+
+plan tests => 4;
 
 use PPIx::EditorTools::RenamePackageFromPath;
 
