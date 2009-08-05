@@ -34,7 +34,7 @@ my $new_code = PPIx::EditorTools::IntroduceTemporaryVariable->new->introduce(
 );
 isa_ok( $new_code,          'PPIx::EditorTools::ReturnObject' );
 isa_ok( $new_code->element, 'PPI::Token' );
-is_deeply( $new_code->element->location, [ 2, 5, 5 ], 'temp var location' );
+location_is( $new_code->element, [ 2, 5, 5 ], 'temp var location' );
 eq_or_diff( $new_code->code, <<'RESULT', '10 / 12' );
 use strict; use warnings;
     my $foo = 10 / 12;
@@ -77,3 +77,10 @@ my $x = $tmp * 2;
 my $y = ( 3 + 10 / 12 ) * 2;
 RESULT
 
+sub location_is {
+    my ($element, $location, $desc) = @_;
+
+    my $elem_loc = $element->location;
+    $elem_loc = [ @$elem_loc[0..2] ] if @$elem_loc > 3;
+    is_deeply( $elem_loc, $location, $desc );
+}

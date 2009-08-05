@@ -28,5 +28,12 @@ my $declaration = PPIx::EditorTools::FindVariableDeclaration->new->find(
 
 isa_ok( $declaration, 'PPIx::EditorTools::ReturnObject' );
 isa_ok( $declaration->element, 'PPI::Statement::Variable' );
-is_deeply( $declaration->element->location, [ 4, 1, 1 ], 'simple scalar' );
+location_is( $declaration->element, [ 4, 1, 1 ], 'simple scalar' );
 
+sub location_is {
+    my ($element, $location, $desc) = @_;
+
+    my $elem_loc = $element->location;
+    $elem_loc = [ @$elem_loc[0..2] ] if @$elem_loc > 3;
+    is_deeply( $elem_loc, $location, $desc );
+}
