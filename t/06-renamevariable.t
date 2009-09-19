@@ -63,20 +63,16 @@ class Test {
 }
 SHINY_REPLACEMENT
 
-TODO: {
-    local $TODO = 'cannot use the declaration as to do the rename';
-    
-    eq_or_diff( eval {
-        PPIx::EditorTools::RenameVariable->new->rename(
-            code        => $code,
-            line        => 8,
-            column      => 12,
-            replacement => 'shiny',
-          )->code } || "",
-        $shiny_replacement,
-        'replace scalar'
-    );
-}
+eq_or_diff( eval {
+    PPIx::EditorTools::RenameVariable->new->rename(
+        code        => $code,
+        line        => 8,
+        column      => 12,
+        replacement => 'shiny',
+      )->code } || "",
+    $shiny_replacement,
+    'replace scalar'
+);
 
 eq_or_diff(
     PPIx::EditorTools::RenameVariable->new->rename(
