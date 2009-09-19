@@ -207,19 +207,6 @@ sub find_token_at_location {
     }
     $document->flush_locations();
     return ();
-
-    # old way that would only handle beginning of tokens; Should probably simply go away.; Should probably simply go away.
-    #my $variable_token = $document->find_first(
-    #	sub {
-    #		my $elem = $_[1];
-    #		return 0 if not $elem->isa('PPI::Token');
-    #		my $loc = $elem->location;
-    #		return 0 if $loc->[0] != $location->[0] or $loc->[1] != $location->[1];
-    #		return 1;
-    #	},
-    #);
-    #
-    #return $variable_token;
 }
 
 # given either a PPI::Token::Symbol (i.e. a variable)
