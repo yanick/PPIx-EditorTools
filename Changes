@@ -1,5 +1,14 @@
 Changes for Perl extension PPIx-EditorTools
 
+0.09 2009.09.19
+	- Fixed Padre ticket:504 and ticket:586 which is basically about being
+	  able to rename a variable when the cursor is over its  declaration 
+	  (AZAWAWI)
+	- Refactored code a bit and removed some dead code (AZAWAWI)
+	- Fixed one passing TODO test in t/06-renamevariable.t (AZAWAWI)
+	- Added a test to t/02-findvariabledeclaration.t to make sure this fix 
+	  works in the future (AZAWAWI)
+
 0.08 2009.08.05
 	- updated location tests to work with the PPI v1.205 (RT#48449) (MGRIMES)
 	- removed the INSTALL file: bad copyright and old install instuctions
