@@ -62,26 +62,17 @@ sub rename {
     my $replacement = $args{replacement} || croak "replacement required";
     my $column      = $args{column}      || croak "column required";
     my $line        = $args{line}        || croak "line required";
+    my $location = [ $line, $column ];
 
     my $doc = $self->ppi;
-    $doc->index_locations();
+    my $token = PPIx::EditorTools::find_token_at_location( $doc, $location );
 
-    # TODO: can we find from inside the variable name?
-    my $token = $doc->find_first(
-        sub {
-            my $elem = $_[1];
-            return 0 if not $elem->isa('PPI::Token');
-            my $loc = $elem->location;
-            return 0
-              if $loc->[0] != $line
-                  or $loc->[1] != $column;
-            return 1;
-        },
-    );
     die "no token found" unless defined $token;
 
     my $declaration = PPIx::EditorTools::find_variable_declaration($token);
     die "no declaration" unless defined $declaration;
+
+    $doc->index_locations;
 
     my $scope = $declaration;
     while ( not $scope->isa('PPI::Document')
