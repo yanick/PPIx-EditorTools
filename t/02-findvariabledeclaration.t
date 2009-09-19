@@ -16,20 +16,41 @@ BEGIN {
 	}
 }
 
-plan tests => 3;
+plan tests => 6;
 
 use PPIx::EditorTools::FindVariableDeclaration;
 
-my $declaration = PPIx::EditorTools::FindVariableDeclaration->new->find(
-    code   => "package TestPackage;\nuse strict;\nuse warnings;\nmy \$x=1;\n\$x++;",
+my $code =<<'END_OF_CODE';
+package TestPackage;
+use strict;
+use warnings;
+my $x=1;
+$x++;
+END_OF_CODE
+
+my $declaration;
+
+# Test finding variable declaration when on the variable
+$declaration = PPIx::EditorTools::FindVariableDeclaration->new->find(
+    code   => $code,
     line   => 5,
     column => 2,
 );
-
 isa_ok( $declaration, 'PPIx::EditorTools::ReturnObject' );
 isa_ok( $declaration->element, 'PPI::Statement::Variable' );
 location_is( $declaration->element, [ 4, 1, 1 ], 'simple scalar' );
 
+# Test finding variable declaration when on declaration itself
+$declaration = PPIx::EditorTools::FindVariableDeclaration->new->find(
+    code   => $code,
+    line   => 4,
+    column => 4,
+);
+isa_ok( $declaration, 'PPIx::EditorTools::ReturnObject' );
+isa_ok( $declaration->element, 'PPI::Statement::Variable' );
+location_is( $declaration->element, [ 4, 1, 1 ], 'simple scalar' );
+
+# Helper function
 sub location_is {
     my ($element, $location, $desc) = @_;
 
