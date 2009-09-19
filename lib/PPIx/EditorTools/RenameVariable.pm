@@ -8,7 +8,7 @@ use Carp;
 use base 'PPIx::EditorTools'; 
 use Class::XSAccessor;
 
-our $VERSION = '0.07';
+our $VERSION = '0.09';
 
 =head1 NAME
 
