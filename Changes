@@ -3,6 +3,8 @@ Changes for Perl extension PPIx-EditorTools
 0.10 to be released
 	- Fixed Padre ticket #655: Can't rename to a variable with an underscore
 	  in it (PATRICKAS)
+	- Fixed Padre ticket #653: Lexically rename doesn't work when clicking
+	  on declaration of variable (PATRICKAS)
 
 0.09 2009.09.19
 	- Fixed Padre ticket:504 and ticket:586 which is basically about being

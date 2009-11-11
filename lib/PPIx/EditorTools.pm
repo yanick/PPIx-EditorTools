@@ -244,6 +244,11 @@ sub find_variable_declaration {
 		return $cursor->parent;
 	}
 
+	# This finds variable declarations if you're above it and it has the form my ($foo , $bar);
+	if($cursor->parent->isa('PPI::Statement::Expression')  && $cursor->parent->parent->parent->isa('PPI::Statement::Variable')  ) {
+		return $cursor->parent->parent->parent;
+	}
+
     while (1) {
         $prev_cursor = $cursor;
         $cursor      = $cursor->parent;
