@@ -136,7 +136,12 @@ sub rename {
                 $node->{content} =
                   substr( $node->content(), 0, 1 ) . $replacement;
             }
-            if ( $type eq '@' and $node->isa("PPI::Token::ArrayIndex") )
+            # This used to be a simple "if". Patrickas: "[elsif] resolves this
+            # issue but it may introduce other bugs since I am not sure I
+            # understand the code that follows it."
+            # See Padre trac ticket #655 for the full comment. Remove this
+            # comment if there are new bugs resulting from this change.
+            elsif ( $type eq '@' and $node->isa("PPI::Token::ArrayIndex") )
             {    # $#foo
                 return 0
                   unless substr( $node->content, 2 ) eq substr( $varname, 1 );
