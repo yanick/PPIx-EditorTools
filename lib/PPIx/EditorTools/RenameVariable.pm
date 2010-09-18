@@ -40,6 +40,8 @@ Constructor. Generally shouldn't be called with any arguments.
 
 =item rename( ppi => PPI::Document $ppi, line => Int, column => Int, replacement => Str )
 =item rename( code => Str $code, line => Int, column => Int, replacement => Str )
+=item rename( code => Str $code, line => Int, column => Int, to_camel_case => Bool, [ucfirst => Bool] )
+=item rename( code => Str $code, line => Int, column => Int, from_camel_case => Bool, [ucfirst => Bool] )
 
 Accepts either a C<PPI::Document> to process or a string containing
 the code (which will be converted into a C<PPI::Document>) to process.
@@ -48,6 +50,14 @@ parameter and returns a C<PPIx::EditorTools::ReturnObject> with the
 new code available via the C<ppi> or C<code> accessors, as a 
 C<PPI::Document> or C<string>, respectively. The C<PPI::Token> found at
 line, column is available via the C<element> accessor.
+
+Instead of specifying an explicit replacement variable name, you may
+choose to use the C<to_camel_case> or C<from_camel_case> options that automatically
+convert to/from camelCase. In that mode, the C<ucfirst> option will force
+uppercasing of the first letter.
+
+You can not specify a replacement name and use the C<to/from_camel_case>
+options.
 
 Croaks with a "no token" exception if no token is found at the location.
 Croaks with a "no declaration" exception if unable to find the declaration.
@@ -59,10 +69,18 @@ Croaks with a "no declaration" exception if unable to find the declaration.
 sub rename {
     my ( $self, %args ) = @_;
     $self->process_doc( %args );
-    my $replacement = $args{replacement} || croak "replacement required";
     my $column      = $args{column}      || croak "column required";
     my $line        = $args{line}        || croak "line required";
     my $location = [ $line, $column ];
+    my $replacement = $args{replacement};
+    if (($args{to_camel_case} or $args{from_camel_case})
+        and defined $replacement) {
+        croak("Can't accept both replacement name and to_camel_case/from_camel_case");
+    }
+    elsif (not $args{to_camel_case} and not $args{from_camel_case}
+           and not defined $replacement) {
+        croak("Need either 'replacement' or to/from_camel_case options");
+    }
 
     my $doc = $self->ppi;
     my $token = PPIx::EditorTools::find_token_at_location( $doc, $location );
@@ -83,6 +101,20 @@ sub rename {
 
     my $token_str = $token->content;
     my $varname   = $token->symbol;
+    if (not defined $replacement) {
+        if ($args{from_camel_case}) {
+            $replacement = _from_camel_case($varname, $args{ucfirst});
+        }
+        else { # $args{to_camel_case}
+            $replacement = _to_camel_case($varname, $args{ucfirst});
+        }
+        if ($varname eq $replacement) {
+            return PPIx::EditorTools::ReturnObject->new(
+                ppi => $doc,
+                element => $token
+            );
+        }
+    }
 
     #warn "VARNAME: $varname";
 
@@ -171,6 +203,42 @@ sub rename {
         ppi => $doc,
         element => $token, );
 }
+
+# converts a variable name to camel case and optionally converts the
+# first character to upper case
+sub _to_camel_case {
+    my $var = shift;
+    my $ucfirst = shift;
+    my $prefix;
+    if ($var =~ s/^(\W*_)//) {
+        $prefix = $1;
+    }
+    $var =~ s/_([[:alpha:]])/\u$1/g;
+    $var =~ s/^([^[:alpha:]]*)([[:alpha:]])/$1\u$2/ if $ucfirst;
+    $var = $prefix.$var if defined $prefix;
+    return $var;
+}
+
+sub _from_camel_case {
+    my $var = shift;
+    my $ucfirst = shift;
+    my $prefix;
+    if ($var =~ s/^(\W*_?)//) {
+        $prefix = $1;
+    }
+    if ($ucfirst) {
+        $var = lcfirst($var);
+        $var =~ s/([[:upper:]])/_\u$1/g;
+        $var =~ s/^([^[:alpha:]]*)([[:alpha:]])/$1\u$2/;
+    }
+    else {
+        $var =~ s/^([^[:alpha:]]*)([[:alpha:]])/$1\l$2/;
+        $var =~ s/([[:upper:]])/_\l$1/g;
+    }
+    $var = $prefix.$var if defined $prefix;
+    return $var;
+}
+
 
 sub _curlify {
     my $var = shift;
