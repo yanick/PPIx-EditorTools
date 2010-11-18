@@ -4,8 +4,10 @@ BEGIN {
 }
 use Test::More;
 
-# plan( skip_all => 'Author test. Set TEST_AUTHOR to a true value to run.' )
-#     unless $ENV{TEST_AUTHOR};
+# Don't run tests for installs
+unless ( $ENV{AUTOMATED_TESTING} or $ENV{RELEASE_TESTING} ) {
+	plan( skip_all => "Author tests not required for installation" );
+}
 
 eval { require Test::Kwalitee; };
 plan( skip_all => 'Test::Kwalitee not installed; skipping' ) if $@;
