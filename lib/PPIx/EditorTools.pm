@@ -1,5 +1,7 @@
 package PPIx::EditorTools;
 
+# ABSTRACT: Utility methods and base class for manipulating Perl via PPI
+
 use 5.008;
 use strict;
 use warnings;
@@ -17,10 +19,6 @@ use PPIx::EditorTools::ReturnObject;
 our $VERSION = '0.10';
 
 =pod
-
-=head1 NAME
-
-PPIx::EditorTools - Utility methods and base class for manipulating Perl via PPI
 
 =head1 SYNOPSIS
 

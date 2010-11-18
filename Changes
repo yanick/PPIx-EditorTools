@@ -1,4 +1,9 @@
-Changes for Perl extension PPIx-EditorTools
+Revision history for PPIx-EditorTools
+
+{{$NEXT}}
+	- Fixed RT #63107: Finding declared variables fragile and misses loop
+	  variables OVID++ (AZAWAWI)
+	- Moved to Dist::Zilla (AZAWAWI)
 
 0.10 2010.09.26
 	- Fixed Padre ticket #655: Can't rename to a variable with an underscore
