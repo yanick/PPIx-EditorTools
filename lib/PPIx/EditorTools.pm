@@ -103,7 +103,8 @@ sub get_all_variable_declarations {
         sub {
             return 0
               unless $_[1]->isa('PPI::Statement::Variable')
-                  or $_[1]->isa('PPI::Statement::Include');
+                  or $_[1]->isa('PPI::Statement::Include')
+                  or $_[1]->isa('PPI::Statement::Compound');
             return 1;
         },
     );
@@ -150,6 +151,34 @@ sub get_all_variable_declarations {
                 push @{ $package{$var} }, $location;
             }
 
+        }
+
+        # find for/foreach loop variables
+        # Fixes RT #63107: Finding declared variables fragile and misses loop variables
+        elsif ( $decl->isa('PPI::Statement::Compound') && 
+            ($decl->type eq 'for' or $decl->type eq 'foreach' ) )
+        {
+            my @elems = $decl->elements;
+            
+            next if scalar(@elems) < 5;
+            my $location = $decl->location;
+            my $type = $elems[2]->content();
+            if( $elems[4]->isa('PPI::Token::Symbol') && 
+                ($type eq 'my' || $type eq 'our') ) 
+            {
+                my $target_type;
+
+                # Only my and our are valid for loop variable
+                if ( $type eq 'my' ) {
+                    $target_type = \%lexical;
+                } elsif ( $type eq 'our' ) {
+                    $target_type = \%our;
+                }
+
+                my $var = $elems[4]->content();
+                $target_type->{$var} ||= [];
+                push @{ $target_type->{$var} }, $location;
+            }
         }
     }    # end foreach declaration
 
