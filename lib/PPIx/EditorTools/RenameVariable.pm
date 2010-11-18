@@ -255,16 +255,4 @@ __END__
 This class inherits from C<PPIx::EditorTools>.
 Also see L<App::EditorTools>, L<Padre>, and L<PPI>.
 
-=head1 AUTHOR
-
-Mark Grimes, E<lt>mgrimes@cpan.orgE<gt>
-
-=head1 COPYRIGHT AND LICENSE
-
-Copyright (C) 2009 by Mark Grimes
-
-This library is free software; you can redistribute it and/or modify
-it under the same terms as Perl itself, either Perl version 5.8.2 or,
-at your option, any later version of Perl 5 you may have available.
-
 =cut

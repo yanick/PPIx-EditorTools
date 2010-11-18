@@ -129,17 +129,6 @@ __END__
 
 C<PPIx::EditorTools>, L<App::EditorTools>, L<Padre>, and L<PPI>.
 
-=head1 AUTHOR
-
-Mark Grimes C<mgrimes@cpan.org>
-
-=head1 COPYRIGHT AND LICENSE
-
-Copyright 2008-2009 The Padre development team as listed in Padre.pm.
-
-This program is free software; you can redistribute it and/or
-modify it under the same terms as Perl 5 itself.
-
 =cut
 
 # Copyright 2008-2009 The Padre development team as listed in Padre.pm.
