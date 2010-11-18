@@ -1,6 +1,8 @@
 Revision history for PPIx-EditorTools
 
 {{$NEXT}}
+
+0.11   2010.11.18
 	- Fixed RT #63107: Finding declared variables fragile and misses loop
 	  variables OVID++ (AZAWAWI)
 	- Moved to Dist::Zilla (AZAWAWI)
