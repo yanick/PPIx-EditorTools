@@ -1,5 +1,7 @@
 package PPIx::EditorTools::RenamePackageFromPath;
 
+# ABSTRACT: Change the package name based on the files path
+
 use 5.008;
 use strict;
 use warnings;
@@ -16,13 +18,7 @@ use Carp;
 use File::Spec;
 use File::Basename;
 
-our $VERSION = '0.10';
-
 =pod
-
-=head1 NAME
-
-PPIx::EditorTools::RenamePackageFromPath - Change the package name based on the files path
 
 =head1 SYNOPSIS
 

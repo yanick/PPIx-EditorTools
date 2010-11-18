@@ -1,5 +1,7 @@
 package PPIx::EditorTools::RenameVariable;
 
+# ABSTRACT: Lexically replace a variable name in Perl code
+
 use 5.008;
 use strict;
 use warnings;
@@ -8,11 +10,7 @@ use Carp;
 use base 'PPIx::EditorTools';
 use Class::XSAccessor;
 
-our $VERSION = '0.10';
-
-=head1 NAME
-
-PPIx::EditorTools::RenameVariable - Lexically replace a variable name in Perl code
+=pod
 
 =head1 SYNOPSIS
 

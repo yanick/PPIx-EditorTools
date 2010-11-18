@@ -1,5 +1,7 @@
 package PPIx::EditorTools::FindVariableDeclaration;
 
+# ABSTRACT: Finds where a variable was declared using PPI
+
 use 5.008;
 use strict;
 use warnings;
@@ -8,13 +10,7 @@ use Carp;
 use base 'PPIx::EditorTools';
 use Class::XSAccessor accessors => { 'location' => 'location' };
 
-our $VERSION = '0.10';
-
 =pod
-
-=head1 NAME
-
-PPIx::EditorTools::FindVariableDeclaration - Finds where a variable was declared using PPI
 
 =head1 SYNOPSIS
 
