@@ -58,7 +58,7 @@ RESULT
 
 $code = <<'END_CODE2';
 use strict; use warnings;
-my $x = ( 1 + 10 
+my $x = ( 1 + 10
     / 12 ) * 2;
 my $y = ( 3 + 10 / 12 ) * 2;
 END_CODE2
@@ -71,7 +71,7 @@ $new_code = PPIx::EditorTools::IntroduceTemporaryVariable->new->introduce(
 );
 eq_or_diff( $new_code->code, <<'RESULT', '( 1 + 10 \n / 12 )' );
 use strict; use warnings;
-my $tmp = ( 1 + 10 
+my $tmp = ( 1 + 10
     / 12 );
 my $x = $tmp * 2;
 my $y = ( 3 + 10 / 12 ) * 2;

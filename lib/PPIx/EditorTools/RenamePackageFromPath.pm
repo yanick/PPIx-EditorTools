@@ -25,7 +25,7 @@ our $VERSION = '0.10';
 PPIx::EditorTools::RenamePackageFromPath - Change the package name based on the files path
 
 =head1 SYNOPSIS
-    
+
     my $munged = PPIx::EditorTools::RenamePackageFromPath->new->rename(
         code        => "package TestPackage;\nuse strict;\nBEGIN {
 	$^W = 1;
@@ -55,13 +55,13 @@ Accepts either a C<PPI::Document> to process or a string containing
 the code (which will be converted into a C<PPI::Document>) to process.
 Replaces the package name with that supplied in the C<filename>
 parameter and returns a C<PPIx::EditorTools::ReturnObject> with the
-new code available via the C<ppi> or C<code> accessors, as a 
+new code available via the C<ppi> or C<code> accessors, as a
 C<PPI::Document> or C<string>, respectively.
 
 An attempt will be made to derive the package name from the filename passed
 as a parameter.  The filename's path will converted to an absolute path and
 it will be searched for a C<lib> directory which will be assumed the start
-of the package name. If no C<lib> directory can be found in the absolute 
+of the package name. If no C<lib> directory can be found in the absolute
 path, the relative path will be used.
 
 Croaks with a "package name not found" exception if unable to find the
@@ -100,7 +100,7 @@ __END__
 
 =head1 SEE ALSO
 
-This class inherits from C<PPIx::EditorTools>. 
+This class inherits from C<PPIx::EditorTools>.
 Also see L<App::EditorTools>, L<Padre>, and L<PPI>.
 
 =head1 AUTHOR

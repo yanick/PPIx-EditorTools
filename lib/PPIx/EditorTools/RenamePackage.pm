@@ -20,7 +20,7 @@ our $VERSION = '0.10';
 PPIx::EditorTools::RenamePackage - Change the package name
 
 =head1 SYNOPSIS
-    
+
     my $munged = PPIx::EditorTools::RenamePackage->new->rename(
         code        => "package TestPackage;\nuse strict;\nBEGIN {
 	$^W = 1;
@@ -50,7 +50,7 @@ Accepts either a C<PPI::Document> to process or a string containing
 the code (which will be converted into a C<PPI::Document>) to process.
 Replaces the package name with that supplied in the C<replacement>
 parameter and returns a C<PPIx::EditorTools::ReturnObject> with the
-new code available via the C<ppi> or C<code> accessors, as a 
+new code available via the C<ppi> or C<code> accessors, as a
 C<PPI::Document> or C<string>, respectively.
 
 Croaks with a "package name not found" exception if unable to find the
@@ -85,7 +85,7 @@ __END__
 
 =head1 SEE ALSO
 
-This class inherits from C<PPIx::EditorTools>. 
+This class inherits from C<PPIx::EditorTools>.
 Also see L<App::EditorTools>, L<Padre>, and L<PPI>.
 
 =head1 AUTHOR

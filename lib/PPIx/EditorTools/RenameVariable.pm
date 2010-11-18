@@ -5,7 +5,7 @@ use strict;
 use warnings;
 use Carp;
 
-use base 'PPIx::EditorTools'; 
+use base 'PPIx::EditorTools';
 use Class::XSAccessor;
 
 our $VERSION = '0.10';
@@ -15,7 +15,7 @@ our $VERSION = '0.10';
 PPIx::EditorTools::RenameVariable - Lexically replace a variable name in Perl code
 
 =head1 SYNOPSIS
-    
+
     my $munged = PPIx::EditorTools::RenameVariable->new->rename(
         code        => $code,
         line        => 15,
@@ -47,7 +47,7 @@ Accepts either a C<PPI::Document> to process or a string containing
 the code (which will be converted into a C<PPI::Document>) to process.
 Renames the variable found at line, column with that supplied in the C<replacement>
 parameter and returns a C<PPIx::EditorTools::ReturnObject> with the
-new code available via the C<ppi> or C<code> accessors, as a 
+new code available via the C<ppi> or C<code> accessors, as a
 C<PPI::Document> or C<string>, respectively. The C<PPI::Token> found at
 line, column is available via the C<element> accessor.
 
@@ -254,7 +254,7 @@ __END__
 
 =head1 SEE ALSO
 
-This class inherits from C<PPIx::EditorTools>. 
+This class inherits from C<PPIx::EditorTools>.
 Also see L<App::EditorTools>, L<Padre>, and L<PPI>.
 
 =head1 AUTHOR

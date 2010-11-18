@@ -48,7 +48,7 @@ Accepts either a C<PPI::Document> to process or a string containing
 the code (which will be converted into a C<PPI::Document>) to process.
 Searches for the variable declaration and returns a
 C<PPIx::EditorTools::ReturnObject> with the declaration
-(C<PPI::Statement::Variable>) available via the C<element> accessor. 
+(C<PPI::Statement::Variable>) available via the C<element> accessor.
 
 Croaks with a "no token" exception if no token is found at the location.
 Croaks with a "no declaration" exception if unable to find the declaration.
@@ -85,7 +85,7 @@ __END__
 
 =head1 SEE ALSO
 
-This class inherits from C<PPIx::EditorTools>. 
+This class inherits from C<PPIx::EditorTools>.
 Also see L<App::EditorTools>, L<Padre>, and L<PPI>.
 
 =head1 AUTHOR

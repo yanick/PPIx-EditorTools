@@ -43,9 +43,9 @@ Constructor. Generally shouldn't be called with any arguments.
 Accepts either a C<PPI::Document> to process or a string containing
 the code (which will be converted into a C<PPI::Document>) to process.
 Finds the location of unmatched braces. Returns a
-C<PPIx::EditorTools::ReturnObject> with the unmatched brace (a 
+C<PPIx::EditorTools::ReturnObject> with the unmatched brace (a
 C<PPI::Structure::Block>) available via the C<element> accessor.
-If there is no unmatched brace, returns undef.  
+If there is no unmatched brace, returns undef.
 
 =back
 
@@ -79,7 +79,7 @@ __END__
 
 =head1 SEE ALSO
 
-This class inherits from C<PPIx::EditorTools>. 
+This class inherits from C<PPIx::EditorTools>.
 Also see L<App::EditorTools>, L<Padre>, and L<PPI>.
 
 =head1 AUTHOR

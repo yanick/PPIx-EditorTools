@@ -27,7 +27,7 @@ PPIx::EditorTools::IntroduceTemporaryVariable - Introduces a temporary variable 
         code           => "use strict; BEGIN {
 	$^W = 1;
 }\n\tmy $x = ( 1 + 10 / 12 ) * 2;\n\tmy $y = ( 3 + 10 / 12 ) * 2;\n",
-        start_location => [ 2, 19 ], 
+        start_location => [ 2, 19 ],
         end_location   => [ 2, 25 ],
         varname        => '$foo',
     );
@@ -36,7 +36,7 @@ PPIx::EditorTools::IntroduceTemporaryVariable - Introduces a temporary variable 
 
 =head1 DESCRIPTION
 
-Given a region of code within a statement, replaces all occurrences of 
+Given a region of code within a statement, replaces all occurrences of
 that code with a temporary variable. Declares and initializes the
 temporary variable right above the statement that included the
 selected expression.
@@ -161,7 +161,7 @@ __END__
 
 =head1 SEE ALSO
 
-This class inherits from C<PPIx::EditorTools>. 
+This class inherits from C<PPIx::EditorTools>.
 Also see L<App::EditorTools>, L<Padre>, and L<PPI>.
 
 =head1 AUTHOR

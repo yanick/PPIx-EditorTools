@@ -11,7 +11,7 @@ our $VERSION = '0.10';
 
 =head1 NAME
 
-PPIx::EditorTools::ReturnObject - Simple object to return values from PPIx::EditorTools 
+PPIx::EditorTools::ReturnObject - Simple object to return values from PPIx::EditorTools
 
 =head1 SYNOPSIS
 
@@ -29,9 +29,9 @@ C<PPIx::EditorTools::ReturnObject> provides an object that can be passed
 around which retains the overall context.
 
 For example, in C<PPIx::EditorTools::FindUnmatchedBrace> if the unmatched
-brace were returned by its C<PPI::Structure::Block> the containing 
+brace were returned by its C<PPI::Structure::Block> the containing
 C<PPI::Document> is likely to go out of scope, thus the C<location>
-method no longer returns a valid location (rather it returns undef). 
+method no longer returns a valid location (rather it returns undef).
 Using the C<ReturnObject> preserves the C<PPI::Document> and the containing
 context.
 

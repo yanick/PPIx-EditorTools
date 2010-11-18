@@ -1,7 +1,5 @@
 package PPIx::EditorTools;
 
-# ABSTRACT: Utility methods and base class for manipulating Perl via PPI
-
 use 5.008;
 use strict;
 use warnings;
@@ -20,9 +18,13 @@ our $VERSION = '0.10';
 
 =pod
 
+=head1 NAME
+
+PPIx::EditorTools - Utility methods and base class for manipulating Perl via PPI
+
 =head1 SYNOPSIS
 
-    See PPIx::EditorTools::* 
+    See PPIx::EditorTools::*
 
 =head1 DESCRIPTION
 
@@ -152,17 +154,16 @@ sub get_all_variable_declarations {
         }
 
         # find for/foreach loop variables
-        # Fixes RT #63107: Finding declared variables fragile and misses loop variables
-        elsif ( $decl->isa('PPI::Statement::Compound') && 
+        elsif ( $decl->isa('PPI::Statement::Compound') &&
             ($decl->type eq 'for' or $decl->type eq 'foreach' ) )
         {
             my @elems = $decl->elements;
-            
+
             next if scalar(@elems) < 5;
             my $location = $decl->location;
             my $type = $elems[2]->content();
-            if( $elems[4]->isa('PPI::Token::Symbol') && 
-                ($type eq 'my' || $type eq 'our') ) 
+            if( $elems[4]->isa('PPI::Token::Symbol') &&
+                ($type eq 'my' || $type eq 'our') )
             {
                 my $target_type;
 

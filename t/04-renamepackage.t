@@ -93,7 +93,7 @@ TODO: {
     local $^W = 0;
 
     my $result = eval {
-        my $munged = 
+        my $munged =
         PPIx::EditorTools::RenamePackage->new->rename(
             code        => $code,
             replacement => 'NewPackage',
