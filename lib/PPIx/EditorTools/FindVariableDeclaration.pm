@@ -54,25 +54,25 @@ Croaks with a "no declaration" exception if unable to find the declaration.
 =cut
 
 sub find {
-    my ( $self, %args ) = @_;
-    $self->process_doc(%args);
-    my $column = $args{column} or croak "column required";
-    my $line   = $args{line}   or croak "line required";
-    my $location = [ $line, $column ];
+	my ( $self, %args ) = @_;
+	$self->process_doc(%args);
+	my $column = $args{column} or croak "column required";
+	my $line   = $args{line}   or croak "line required";
+	my $location = [ $line, $column ];
 
-    my $ppi = $self->ppi;
-    $ppi->flush_locations;
+	my $ppi = $self->ppi;
+	$ppi->flush_locations;
 
-    my $token = PPIx::EditorTools::find_token_at_location( $ppi, $location );
-    croak "no token" unless $token;
+	my $token = PPIx::EditorTools::find_token_at_location( $ppi, $location );
+	croak "no token" unless $token;
 
-    my $declaration = PPIx::EditorTools::find_variable_declaration($token);
-    croak "no declaration" unless $declaration;
+	my $declaration = PPIx::EditorTools::find_variable_declaration($token);
+	croak "no declaration" unless $declaration;
 
-    return PPIx::EditorTools::ReturnObject->new(
-        ppi     => $ppi,
-        element => $declaration,
-    );
+	return PPIx::EditorTools::ReturnObject->new(
+		ppi     => $ppi,
+		element => $declaration,
+	);
 }
 
 1;

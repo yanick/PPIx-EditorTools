@@ -71,54 +71,54 @@ from the C<PPI::Document> via the serialize method (lazily) if needed.
 =cut
 
 sub new {
-    my $class = shift;
-    return bless {@_}, ref($class) || $class;
+	my $class = shift;
+	return bless {@_}, ref($class) || $class;
 }
 
 sub element {
-    my ($self) = @_;
+	my ($self) = @_;
 
-    # If element is a code ref, run the code once then cache the
-    # result
-    if (    exists $self->{element}
-        and ref( $self->{element} )
-        and ref( $self->{element} ) eq 'CODE' )
-    {
-        $self->{element} = $self->{element}->(@_);
-    }
+	# If element is a code ref, run the code once then cache the
+	# result
+	if (    exists $self->{element}
+		and ref( $self->{element} )
+		and ref( $self->{element} ) eq 'CODE' )
+	{
+		$self->{element} = $self->{element}->(@_);
+	}
 
-    return $self->{element};
+	return $self->{element};
 }
 
 sub ppi {
-    my ( $self, $doc ) = @_;
+	my ( $self, $doc ) = @_;
 
-    # $self->{ppi} = $doc if $doc;    # TODO: and isa?
+	# $self->{ppi} = $doc if $doc;    # TODO: and isa?
 
-    return $self->{ppi} if $self->{ppi};
+	return $self->{ppi} if $self->{ppi};
 
-    if ( $self->{code} ) {
-        my $code = $self->{code};
-        $self->{ppi} = PPI::Document->new( \$code );
-        return $self->{ppi};
-    }
+	if ( $self->{code} ) {
+		my $code = $self->{code};
+		$self->{ppi} = PPI::Document->new( \$code );
+		return $self->{ppi};
+	}
 
-    return;
+	return;
 }
 
 sub code {
-    my ( $self, $doc ) = @_;
+	my ( $self, $doc ) = @_;
 
-    # $self->{code} = $doc if $doc;
+	# $self->{code} = $doc if $doc;
 
-    return $self->{code} if $self->{code};
+	return $self->{code} if $self->{code};
 
-    if ( $self->{ppi} ) {
-        $self->{code} = $self->{ppi}->serialize;
-        return $self->{code};
-    }
+	if ( $self->{ppi} ) {
+		$self->{code} = $self->{ppi}->serialize;
+		return $self->{code};
+	}
 
-    return;
+	return;
 }
 
 1;

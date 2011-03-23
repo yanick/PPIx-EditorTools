@@ -3,6 +3,7 @@ package PPIx::EditorTools::RenamePackage;
 # ABSTRACT: Change the package name
 
 use strict;
+
 BEGIN {
 	$^W = 1;
 }
@@ -57,21 +58,23 @@ package name.
 =cut
 
 sub rename {
-    my ( $self, %args ) = @_;
-    $self->process_doc(%args);
-    my $replacement = $args{replacement} || croak "replacement required";
+	my ( $self, %args ) = @_;
+	$self->process_doc(%args);
+	my $replacement = $args{replacement} || croak "replacement required";
 
-    my $doc = $self->ppi;
+	my $doc = $self->ppi;
 
-    # TODO: support MooseX::Declare
-    my $package = $doc->find_first('PPI::Statement::Package')
-      or die "no package found";
-    my $namespace = $package->schild(1) or croak "package name not found";
-    $namespace->isa('PPI::Token::Word') or croak "package name not found";
-    $namespace->{content} = $replacement;
+	# TODO: support MooseX::Declare
+	my $package = $doc->find_first('PPI::Statement::Package')
+		or die "no package found";
+	my $namespace = $package->schild(1) or croak "package name not found";
+	$namespace->isa('PPI::Token::Word') or croak "package name not found";
+	$namespace->{content} = $replacement;
 
-    return PPIx::EditorTools::ReturnObject->new( ppi => $doc,
-        element => $package );
+	return PPIx::EditorTools::ReturnObject->new(
+		ppi     => $doc,
+		element => $package
+	);
 }
 
 1;

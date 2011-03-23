@@ -1,6 +1,7 @@
 #!/usr/bin/perl
 
 use strict;
+
 BEGIN {
 	$^W = 1;
 }
@@ -10,7 +11,7 @@ use Test::Differences;
 use PPI;
 
 BEGIN {
-	if ($PPI::VERSION =~ /_/) {
+	if ( $PPI::VERSION =~ /_/ ) {
 		plan skip_all => "Need released version of PPI. You have $PPI::VERSION";
 		exit 0;
 	}
@@ -25,47 +26,47 @@ my $code = "package TestPackage;\nuse strict;\nBEGIN {
 }\n1;\n";
 
 sub new_code {
-    return sprintf "package %s;\nuse strict;\nBEGIN {
+	return sprintf "package %s;\nuse strict;\nBEGIN {
 	$^W = 1;
 }\n1;\n", shift;
 }
 
 my $munged = PPIx::EditorTools::RenamePackageFromPath->new->rename(
-    code     => $code,
-    filename => './lib/Test/Code/Path.pm',
+	code     => $code,
+	filename => './lib/Test/Code/Path.pm',
 );
 
 eq_or_diff( $munged->code, new_code("Test::Code::Path"), 'simple package' );
 
 eq_or_diff(
-    PPIx::EditorTools::RenamePackageFromPath->new->rename(
-        code     => $code,
-        filename => './Test/Code/Path.pm',
-      )->code,
-    new_code("Test::Code::Path"),
-    'no lib package'
+	PPIx::EditorTools::RenamePackageFromPath->new->rename(
+		code     => $code,
+		filename => './Test/Code/Path.pm',
+		)->code,
+	new_code("Test::Code::Path"),
+	'no lib package'
 );
 
 eq_or_diff(
-    PPIx::EditorTools::RenamePackageFromPath->new->rename(
-        code     => $code,
-        filename => 'lib/Test/./Code/Path.pm',
-      )->code,
-    new_code("Test::Code::Path"),
-    'with /./ part'
+	PPIx::EditorTools::RenamePackageFromPath->new->rename(
+		code     => $code,
+		filename => 'lib/Test/./Code/Path.pm',
+		)->code,
+	new_code("Test::Code::Path"),
+	'with /./ part'
 );
 
 TODO: {
-    local $TODO = 'Does not support /../ path constructs yet';
+	local $TODO = 'Does not support /../ path constructs yet';
 
-    eq_or_diff(
-        PPIx::EditorTools::RenamePackageFromPath->new->rename(
-            code     => $code,
-            filename => 'lib/Test/Ignore/../Code/Path.pm',
-          )->code,
-        new_code("Test::Code::Path"),
-        'strip .. from package'
-    );
+	eq_or_diff(
+		PPIx::EditorTools::RenamePackageFromPath->new->rename(
+			code     => $code,
+			filename => 'lib/Test/Ignore/../Code/Path.pm',
+			)->code,
+		new_code("Test::Code::Path"),
+		'strip .. from package'
+	);
 }
 
 __END__

@@ -1,6 +1,7 @@
 #!/usr/bin/perl
 
 use strict;
+
 BEGIN {
 	$^W = 1;
 }
@@ -10,7 +11,7 @@ use Test::Differences;
 use PPI;
 
 BEGIN {
-	if ($PPI::VERSION =~ /_/) {
+	if ( $PPI::VERSION =~ /_/ ) {
 		plan skip_all => "Need released version of PPI. You have $PPI::VERSION";
 		exit 0;
 	}
@@ -21,27 +22,27 @@ plan tests => 5;
 use PPIx::EditorTools::RenamePackage;
 
 my $munged = PPIx::EditorTools::RenamePackage->new->rename(
-    code        => "package TestPackage;\nuse strict;\nBEGIN {
+	code => "package TestPackage;\nuse strict;\nBEGIN {
 	$^W = 1;
 }\n1;\n",
-    replacement => 'NewPackage'
+	replacement => 'NewPackage'
 );
 
 isa_ok( $munged,          'PPIx::EditorTools::ReturnObject' );
 isa_ok( $munged->element, 'PPI::Statement::Package' );
 eq_or_diff(
-    $munged->code,
-    "package NewPackage;\nuse strict;\nBEGIN {
+	$munged->code,
+	"package NewPackage;\nuse strict;\nBEGIN {
 	$^W = 1;
 }\n1;\n",
-    'simple package'
+	'simple package'
 );
 eq_or_diff(
-    $munged->ppi->serialize,
-    "package NewPackage;\nuse strict;\nBEGIN {
+	$munged->ppi->serialize,
+	"package NewPackage;\nuse strict;\nBEGIN {
 	$^W = 1;
 }\n1;\n",
-    'simple package'
+	'simple package'
 );
 
 my $code = <<'END_CODE';
@@ -87,20 +88,19 @@ class NewPackage {
 SHINY_REPLACEMENT
 
 TODO: {
-    local $TODO = 'RenamePackage does not support MooseX::Declare yet';
+	local $TODO = 'RenamePackage does not support MooseX::Declare yet';
 
-    # The unimplemented stuff throws warnings
-    local $^W = 0;
+	# The unimplemented stuff throws warnings
+	local $^W = 0;
 
-    my $result = eval {
-        my $munged =
-        PPIx::EditorTools::RenamePackage->new->rename(
-            code        => $code,
-            replacement => 'NewPackage',
-        );
-        $munged->code;
-    };
-    eq_or_diff( $result, $shiny_replacement, 'replace scalar' );
+	my $result = eval {
+		my $munged = PPIx::EditorTools::RenamePackage->new->rename(
+			code        => $code,
+			replacement => 'NewPackage',
+		);
+		$munged->code;
+	};
+	eq_or_diff( $result, $shiny_replacement, 'replace scalar' );
 
 }
 

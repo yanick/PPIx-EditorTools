@@ -65,185 +65,180 @@ Croaks with a "no declaration" exception if unable to find the declaration.
 =cut
 
 sub rename {
-    my ( $self, %args ) = @_;
-    $self->process_doc( %args );
-    my $column      = $args{column}      || croak "column required";
-    my $line        = $args{line}        || croak "line required";
-    my $location = [ $line, $column ];
-    my $replacement = $args{replacement};
-    if (($args{to_camel_case} or $args{from_camel_case})
-        and defined $replacement) {
-        croak("Can't accept both replacement name and to_camel_case/from_camel_case");
-    }
-    elsif (not $args{to_camel_case} and not $args{from_camel_case}
-           and not defined $replacement) {
-        croak("Need either 'replacement' or to/from_camel_case options");
-    }
+	my ( $self, %args ) = @_;
+	$self->process_doc(%args);
+	my $column = $args{column} || croak "column required";
+	my $line   = $args{line}   || croak "line required";
+	my $location = [ $line, $column ];
+	my $replacement = $args{replacement};
+	if ( ( $args{to_camel_case} or $args{from_camel_case} )
+		and defined $replacement )
+	{
+		croak("Can't accept both replacement name and to_camel_case/from_camel_case");
+	} elsif ( not $args{to_camel_case}
+		and not $args{from_camel_case}
+		and not defined $replacement )
+	{
+		croak("Need either 'replacement' or to/from_camel_case options");
+	}
 
-    my $doc = $self->ppi;
-    my $token = PPIx::EditorTools::find_token_at_location( $doc, $location );
+	my $doc = $self->ppi;
+	my $token = PPIx::EditorTools::find_token_at_location( $doc, $location );
 
-    die "no token found" unless defined $token;
+	die "no token found" unless defined $token;
 
-    my $declaration = PPIx::EditorTools::find_variable_declaration($token);
-    die "no declaration" unless defined $declaration;
+	my $declaration = PPIx::EditorTools::find_variable_declaration($token);
+	die "no declaration" unless defined $declaration;
 
-    $doc->index_locations;
+	$doc->index_locations;
 
-    my $scope = $declaration;
-    while ( not $scope->isa('PPI::Document')
-        and not $scope->isa('PPI::Structure::Block') )
-    {
-        $scope = $scope->parent;
-    }
+	my $scope = $declaration;
+	while ( not $scope->isa('PPI::Document')
+		and not $scope->isa('PPI::Structure::Block') )
+	{
+		$scope = $scope->parent;
+	}
 
-    my $token_str = $token->content;
-    my $varname   = $token->symbol;
-    if (not defined $replacement) {
-        if ($args{from_camel_case}) {
-            $replacement = _from_camel_case($varname, $args{ucfirst});
-        }
-        else { # $args{to_camel_case}
-            $replacement = _to_camel_case($varname, $args{ucfirst});
-        }
-        if ($varname eq $replacement) {
-            return PPIx::EditorTools::ReturnObject->new(
-                ppi => $doc,
-                element => $token
-            );
-        }
-    }
+	my $token_str = $token->content;
+	my $varname   = $token->symbol;
+	if ( not defined $replacement ) {
+		if ( $args{from_camel_case} ) {
+			$replacement = _from_camel_case( $varname, $args{ucfirst} );
+		} else { # $args{to_camel_case}
+			$replacement = _to_camel_case( $varname, $args{ucfirst} );
+		}
+		if ( $varname eq $replacement ) {
+			return PPIx::EditorTools::ReturnObject->new(
+				ppi     => $doc,
+				element => $token
+			);
+		}
+	}
 
-    #warn "VARNAME: $varname";
+	#warn "VARNAME: $varname";
 
-    # TODO: This could be part of PPI somehow?
-    # The following string of hacks is simply for finding symbols in quotelikes and regexes
-    my $type = substr( $varname, 0, 1 );
-    my $brace = $type eq '@' ? '[' : ( $type eq '%' ? '{' : '' );
+	# TODO: This could be part of PPI somehow?
+	# The following string of hacks is simply for finding symbols in quotelikes and regexes
+	my $type = substr( $varname, 0, 1 );
+	my $brace = $type eq '@' ? '[' : ( $type eq '%' ? '{' : '' );
 
-    my @patterns;
-    if ( $type eq '@' or $type eq '%' ) {
-        my $accessv = $varname;
-        $accessv =~ s/^\Q$type\E/\$/;
-        @patterns = (
-            quotemeta( _curlify($varname) ),
-            quotemeta($varname),
-            quotemeta($accessv) . '(?=' . quotemeta($brace) . ')',
-        );
-        if ( $type eq '%' ) {
-            my $slicev = $varname;
-            $slicev =~ s/^\%/\@/;
-            push @patterns,
-              quotemeta($slicev) . '(?=' . quotemeta($brace) . ')';
-        } elsif ( $type eq '@' ) {
-            my $indexv = $varname;
-            $indexv =~ s/^\@/\$\#/;
-            push @patterns, quotemeta($indexv);
-        }
-    } else {
-        @patterns = (
-            quotemeta( _curlify($varname) ),
-            quotemeta($varname) . "(?![\[\{])"
-        );
-    }
-    my %unique;
-    my $finder_regexp =
-      '(?:' . join( '|', grep { !$unique{$_}++ } @patterns ) . ')';
+	my @patterns;
+	if ( $type eq '@' or $type eq '%' ) {
+		my $accessv = $varname;
+		$accessv =~ s/^\Q$type\E/\$/;
+		@patterns = (
+			quotemeta( _curlify($varname) ),
+			quotemeta($varname),
+			quotemeta($accessv) . '(?=' . quotemeta($brace) . ')',
+		);
+		if ( $type eq '%' ) {
+			my $slicev = $varname;
+			$slicev =~ s/^\%/\@/;
+			push @patterns, quotemeta($slicev) . '(?=' . quotemeta($brace) . ')';
+		} elsif ( $type eq '@' ) {
+			my $indexv = $varname;
+			$indexv =~ s/^\@/\$\#/;
+			push @patterns, quotemeta($indexv);
+		}
+	} else {
+		@patterns = (
+			quotemeta( _curlify($varname) ),
+			quotemeta($varname) . "(?![\[\{])"
+		);
+	}
+	my %unique;
+	my $finder_regexp = '(?:' . join( '|', grep { !$unique{$_}++ } @patterns ) . ')';
 
-    $finder_regexp =
-      qr/$finder_regexp/;    # used to find symbols in quotelikes and regexes
-                             #warn $finder_regexp;
+	$finder_regexp = qr/$finder_regexp/; # used to find symbols in quotelikes and regexes
+	                                     #warn $finder_regexp;
 
-    $replacement =~ s/^\W+//;
+	$replacement =~ s/^\W+//;
 
-    $scope->find(
-        sub {
-            my $node = $_[1];
-            if ( $node->isa("PPI::Token::Symbol") ) {
-                return 0 unless $node->symbol eq $varname;
+	$scope->find(
+		sub {
+			my $node = $_[1];
+			if ( $node->isa("PPI::Token::Symbol") ) {
+				return 0 unless $node->symbol eq $varname;
 
-                # TODO do this without breaking encapsulation!
-                $node->{content} =
-                  substr( $node->content(), 0, 1 ) . $replacement;
-            }
-            # This used to be a simple "if". Patrickas: "[elsif] resolves this
-            # issue but it may introduce other bugs since I am not sure I
-            # understand the code that follows it."
-            # See Padre trac ticket #655 for the full comment. Remove this
-            # comment if there are new bugs resulting from this change.
-            elsif ( $type eq '@' and $node->isa("PPI::Token::ArrayIndex") )
-            {    # $#foo
-                return 0
-                  unless substr( $node->content, 2 ) eq substr( $varname, 1 );
+				# TODO do this without breaking encapsulation!
+				$node->{content} = substr( $node->content(), 0, 1 ) . $replacement;
+			}
 
-                # TODO do this without breaking encapsulation!
-                $node->{content} = '$#' . $replacement;
-            } elsif ( $node->isa("PPI::Token") )
-            {    # the case of potential quotelikes and regexes
-                my $str = $node->content;
-                if (
-                    $str =~ s{($finder_regexp)([\[\{]?)}<
+			# This used to be a simple "if". Patrickas: "[elsif] resolves this
+			# issue but it may introduce other bugs since I am not sure I
+			# understand the code that follows it."
+			# See Padre trac ticket #655 for the full comment. Remove this
+			# comment if there are new bugs resulting from this change.
+			elsif ( $type eq '@' and $node->isa("PPI::Token::ArrayIndex") ) { # $#foo
+				return 0
+					unless substr( $node->content, 2 ) eq substr( $varname, 1 );
+
+				# TODO do this without breaking encapsulation!
+				$node->{content} = '$#' . $replacement;
+			} elsif ( $node->isa("PPI::Token") ) { # the case of potential quotelikes and regexes
+				my $str = $node->content;
+				if ($str =~ s{($finder_regexp)([\[\{]?)}<
 				        if ($1 =~ tr/{//) { substr($1, 0, ($1=~tr/#//)+1) . "{$replacement}$2" }
 				        else              { substr($1, 0, ($1=~tr/#//)+1) . "$replacement$2" }
 				    >ge
-                  )
-                {
+					)
+				{
 
-                    # TODO do this without breaking encapsulation!
-                    $node->{content} = $str;
-                }
-            }
-            return 0;
-        },
-    );
+					# TODO do this without breaking encapsulation!
+					$node->{content} = $str;
+				}
+			}
+			return 0;
+		},
+	);
 
-    return PPIx::EditorTools::ReturnObject->new(
-        ppi => $doc,
-        element => $token, );
+	return PPIx::EditorTools::ReturnObject->new(
+		ppi     => $doc,
+		element => $token,
+	);
 }
 
 # converts a variable name to camel case and optionally converts the
 # first character to upper case
 sub _to_camel_case {
-    my $var = shift;
-    my $ucfirst = shift;
-    my $prefix;
-    if ($var =~ s/^(\W*_)//) {
-        $prefix = $1;
-    }
-    $var =~ s/_([[:alpha:]])/\u$1/g;
-    $var =~ s/^([^[:alpha:]]*)([[:alpha:]])/$1\u$2/ if $ucfirst;
-    $var = $prefix.$var if defined $prefix;
-    return $var;
+	my $var     = shift;
+	my $ucfirst = shift;
+	my $prefix;
+	if ( $var =~ s/^(\W*_)// ) {
+		$prefix = $1;
+	}
+	$var =~ s/_([[:alpha:]])/\u$1/g;
+	$var =~ s/^([^[:alpha:]]*)([[:alpha:]])/$1\u$2/ if $ucfirst;
+	$var = $prefix . $var if defined $prefix;
+	return $var;
 }
 
 sub _from_camel_case {
-    my $var = shift;
-    my $ucfirst = shift;
-    my $prefix;
-    if ($var =~ s/^(\W*_?)//) {
-        $prefix = $1;
-    }
-    if ($ucfirst) {
-        $var = lcfirst($var);
-        $var =~ s/([[:upper:]])/_\u$1/g;
-        $var =~ s/^([^[:alpha:]]*)([[:alpha:]])/$1\u$2/;
-    }
-    else {
-        $var =~ s/^([^[:alpha:]]*)([[:alpha:]])/$1\l$2/;
-        $var =~ s/([[:upper:]])/_\l$1/g;
-    }
-    $var = $prefix.$var if defined $prefix;
-    return $var;
+	my $var     = shift;
+	my $ucfirst = shift;
+	my $prefix;
+	if ( $var =~ s/^(\W*_?)// ) {
+		$prefix = $1;
+	}
+	if ($ucfirst) {
+		$var = lcfirst($var);
+		$var =~ s/([[:upper:]])/_\u$1/g;
+		$var =~ s/^([^[:alpha:]]*)([[:alpha:]])/$1\u$2/;
+	} else {
+		$var =~ s/^([^[:alpha:]]*)([[:alpha:]])/$1\l$2/;
+		$var =~ s/([[:upper:]])/_\l$1/g;
+	}
+	$var = $prefix . $var if defined $prefix;
+	return $var;
 }
 
 
 sub _curlify {
-    my $var = shift;
-    if ( $var =~ s/^([\$\@\%])(.+)$/${1}{$2}/ ) {
-        return ($var);
-    }
-    return ();
+	my $var = shift;
+	if ( $var =~ s/^([\$\@\%])(.+)$/${1}{$2}/ ) {
+		return ($var);
+	}
+	return ();
 }
 
 1;

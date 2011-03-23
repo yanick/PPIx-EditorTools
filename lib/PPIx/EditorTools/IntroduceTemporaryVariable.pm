@@ -9,10 +9,10 @@ use Carp;
 
 use base 'PPIx::EditorTools';
 use Class::XSAccessor accessors => {
-    'start_location' => 'start_location',
-    'end_location'   => 'end_location',
-    'expression'     => 'expression',
-    'location'       => 'location',
+	'start_location' => 'start_location',
+	'end_location'   => 'end_location',
+	'expression'     => 'expression',
+	'location'       => 'location',
 };
 
 =pod
@@ -70,85 +70,87 @@ Croaks with a "no statement" exception if unable to find the statement.
 =cut
 
 sub introduce {
-    my ( $self, %args ) = @_;
-    $self->process_doc(%args);
-    my $start_loc = $args{start_location} or croak "start_location required";
-    my $end_loc   = $args{end_location}   or croak "end_location required";
-    my $varname   = $args{varname};
-    $varname = 'tmp'          if not defined $varname;
-    $varname = '$' . $varname if $varname !~ /^[\$\@\%]/;
+	my ( $self, %args ) = @_;
+	$self->process_doc(%args);
+	my $start_loc = $args{start_location} or croak "start_location required";
+	my $end_loc   = $args{end_location}   or croak "end_location required";
+	my $varname   = $args{varname};
+	$varname = 'tmp'          if not defined $varname;
+	$varname = '$' . $varname if $varname !~ /^[\$\@\%]/;
 
-    my $ppi = $self->ppi;
-    $ppi->flush_locations;
+	my $ppi = $self->ppi;
+	$ppi->flush_locations;
 
-    my $token = PPIx::EditorTools::find_token_at_location( $ppi, $start_loc );
-    $ppi->flush_locations;
-    die "no token" unless $token;
+	my $token = PPIx::EditorTools::find_token_at_location( $ppi, $start_loc );
+	$ppi->flush_locations;
+	die "no token" unless $token;
 
-    my $statement = $token->statement();
-    die "no statement" unless $statement;
+	my $statement = $token->statement();
+	die "no statement" unless $statement;
 
-    # walk up the PPI tree until we reach a sort of structure that's not a statement.
-    # FIXME: This may or may not be robust. A PPI::Statement claims to be what's
-    #        defined as "statements" in perlsyn, but it's not! perlsyn says all statements
-    #        end in a semicolon unless at the end of a block.
-    #        For PPI, Statements can be part of others and thus don't necessarily have
-    #        a semicolon.
-    while (1) {
-        my $parent = $statement->statement();
-        last if not defined $parent;
-        if ( $parent eq $statement )
-        {    # exactly the same object, ie. is a statement already
-            $parent = $statement->parent();    # force the parent
-            last
-              if not $parent # stop if we're at a block or at the document level
-                  or $parent->isa('PPI::Structure::Block')
-                  or $parent->isa('PPI::Structure::Document');
-            $parent = $parent->statement();    # force it to be a statement
-        }
-        last if not $parent    # stop if the parent isn't a statement
-              or not $parent->isa('PPI::Statement');
-        $statement = $parent;
-    }
-    my $location_for_insert = $statement->location;
-    $self->location($location_for_insert);
+	# walk up the PPI tree until we reach a sort of structure that's not a statement.
+	# FIXME: This may or may not be robust. A PPI::Statement claims to be what's
+	#        defined as "statements" in perlsyn, but it's not! perlsyn says all statements
+	#        end in a semicolon unless at the end of a block.
+	#        For PPI, Statements can be part of others and thus don't necessarily have
+	#        a semicolon.
+	while (1) {
+		my $parent = $statement->statement();
+		last if not defined $parent;
+		if ( $parent eq $statement ) { # exactly the same object, ie. is a statement already
+			$parent = $statement->parent(); # force the parent
+			last
+				if not $parent              # stop if we're at a block or at the document level
+					or $parent->isa('PPI::Structure::Block')
+					or $parent->isa('PPI::Structure::Document');
+			$parent = $parent->statement(); # force it to be a statement
+		}
+		last if not $parent                 # stop if the parent isn't a statement
+				or not $parent->isa('PPI::Statement');
+		$statement = $parent;
+	}
+	my $location_for_insert = $statement->location;
+	$self->location($location_for_insert);
 
-    # TODO: split on a look behind \n so we keep the \n
-    my @code = map { "$_\n" } split( /\n/, $ppi->serialize );
+	# TODO: split on a look behind \n so we keep the \n
+	my @code = map {"$_\n"} split( /\n/, $ppi->serialize );
 
-    my $expr;
-    for my $line_num ( $start_loc->[0] .. $end_loc->[0] ) {
-        my $line =
-          $code[ $line_num - 1 ];    # 0 based index to 1 base line numbers
+	my $expr;
+	for my $line_num ( $start_loc->[0] .. $end_loc->[0] ) {
+		my $line = $code[ $line_num - 1 ];  # 0 based index to 1 base line numbers
 
-        substr( $line, $end_loc->[1] ) = '' if $line_num == $end_loc->[0];
-        substr( $line, 0, $start_loc->[1] - 1 ) = ''
-          if $line_num == $start_loc->[0];
+		substr( $line, $end_loc->[1] ) = '' if $line_num == $end_loc->[0];
+		substr( $line, 0, $start_loc->[1] - 1 ) = ''
+			if $line_num == $start_loc->[0];
 
-        $expr .= $line;
-    }
+		$expr .= $line;
+	}
 
-    $self->expression($expr);
+	$self->expression($expr);
 
-    my $indent = '';
-    $indent = $1 if $code[ $location_for_insert->[0] - 1 ] =~ /^(\s+)/;
+	my $indent = '';
+	$indent = $1 if $code[ $location_for_insert->[0] - 1 ] =~ /^(\s+)/;
 
-    my $place_holder = 'XXXXX_PPIx_EDITOR_PLACE_HOLDER_XXXXX';
-    substr( $code[ $location_for_insert->[0] - 1 ],
-        $location_for_insert->[1] - 1, 0 )
-      = sprintf( "my %s = %s;\n%s", $varname, $place_holder, $indent );
+	my $place_holder = 'XXXXX_PPIx_EDITOR_PLACE_HOLDER_XXXXX';
+	substr(
+		$code[ $location_for_insert->[0] - 1 ],
+		$location_for_insert->[1] - 1, 0
+	) = sprintf( "my %s = %s;\n%s", $varname, $place_holder, $indent );
 
-    # TODO: need to watch for word boundries etc...
-    my $code = join( '', @code );
-    $code =~ s/\Q$expr\E/$varname/gm;
-    $code =~ s/\Q$place_holder\E/$expr/gm;
+	# TODO: need to watch for word boundries etc...
+	my $code = join( '', @code );
+	$code =~ s/\Q$expr\E/$varname/gm;
+	$code =~ s/\Q$place_holder\E/$expr/gm;
 
-    return PPIx::EditorTools::ReturnObject->new(
-        code    => $code,
-        element => sub {
-            PPIx::EditorTools::find_token_at_location( shift->ppi,
-                $location_for_insert );
-        } );
+	return PPIx::EditorTools::ReturnObject->new(
+		code    => $code,
+		element => sub {
+			PPIx::EditorTools::find_token_at_location(
+				shift->ppi,
+				$location_for_insert
+			);
+		}
+	);
 }
 
 1;

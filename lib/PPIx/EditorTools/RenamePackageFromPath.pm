@@ -8,8 +8,8 @@ use warnings;
 use Carp;
 
 use Class::XSAccessor accessors => {
-    'replacement' => 'replacement',
-    'filename'    => 'filename',
+	'replacement' => 'replacement',
+	'filename'    => 'filename',
 };
 
 use base 'PPIx::EditorTools';
@@ -68,25 +68,24 @@ package name.
 =cut
 
 sub rename {
-    my ( $self, %args ) = @_;
-    $self->process_doc(%args);
-    my $path = $args{filename} || croak "filename required";
+	my ( $self, %args ) = @_;
+	$self->process_doc(%args);
+	my $path = $args{filename} || croak "filename required";
 
-    my $dir = dirname $path;
-    my $file = basename $path, qw/.pm .PM .Pm/;
+	my $dir = dirname $path;
+	my $file = basename $path, qw/.pm .PM .Pm/;
 
-    my @directories =
-      grep { $_ && !/^\.$/ } File::Spec->splitdir( File::Spec->rel2abs($dir) );
-    my $replacement;
-    if ( grep { /^lib$/ } @directories ) {
-        while ( shift(@directories) !~ /^lib$/ ) { }
-    } else {
-        @directories = grep { $_ && !/^\.$/ } File::Spec->splitdir($dir);
-    }
-    $replacement = join( '::', @directories, $file );
+	my @directories =
+		grep { $_ && !/^\.$/ } File::Spec->splitdir( File::Spec->rel2abs($dir) );
+	my $replacement;
+	if ( grep {/^lib$/} @directories ) {
+		while ( shift(@directories) !~ /^lib$/ ) { }
+	} else {
+		@directories = grep { $_ && !/^\.$/ } File::Spec->splitdir($dir);
+	}
+	$replacement = join( '::', @directories, $file );
 
-    return PPIx::EditorTools::RenamePackage->new( ppi => $self->ppi )
-      ->rename( replacement => $replacement );
+	return PPIx::EditorTools::RenamePackage->new( ppi => $self->ppi )->rename( replacement => $replacement );
 
 }
 

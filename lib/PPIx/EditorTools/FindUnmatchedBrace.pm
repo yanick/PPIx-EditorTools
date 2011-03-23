@@ -48,25 +48,25 @@ If there is no unmatched brace, returns undef.
 =cut
 
 sub find {
-    my ( $self, %args ) = @_;
-    $self->process_doc(%args);
+	my ( $self, %args ) = @_;
+	$self->process_doc(%args);
 
-    my $ppi = $self->ppi;
+	my $ppi = $self->ppi;
 
-    my $where = $ppi->find( \&PPIx::EditorTools::find_unmatched_brace );
-    if ($where) {
-        @$where = sort {
-            PPIx::EditorTools::element_depth($b)
-              <=> PPIx::EditorTools::element_depth($a)
-              or $a->location->[0] <=> $b->location->[0]
-              or $a->location->[1] <=> $b->location->[1]
-        } @$where;
+	my $where = $ppi->find( \&PPIx::EditorTools::find_unmatched_brace );
+	if ($where) {
+		@$where = sort {
+			       PPIx::EditorTools::element_depth($b) <=> PPIx::EditorTools::element_depth($a)
+				or $a->location->[0] <=> $b->location->[0]
+				or $a->location->[1] <=> $b->location->[1]
+		} @$where;
 
-        return PPIx::EditorTools::ReturnObject->new(
-            ppi     => $ppi,
-            element => $where->[0] );
-    }
-    return;
+		return PPIx::EditorTools::ReturnObject->new(
+			ppi     => $ppi,
+			element => $where->[0]
+		);
+	}
+	return;
 }
 
 1;
