@@ -16,7 +16,7 @@ use PPI;
 
 =head1 SYNOPSIS
 
-  my $outline = PPIx::EditorTools::Lexer->new->lexer(
+  PPIx::EditorTools::Lexer->new->lexer(
         code => "package TestPackage;\nsub x { 1;\n",
         highlighter => sub {
 		my ( $css, $row, $rowchar, $len ) = @_;

@@ -2,14 +2,15 @@ Revision history for PPIx-EditorTools
 
 {{$NEXT}}
 
+0.13 2011.03.24
 	- Copy the lexer code used for syntax highlighting in 
 	  Padre::Document::Perl::PPILexer to PPIx::EditorTools::Lexer (SZABGAB)
 
-0.12  2011.03.23
+0.12 2011.03.23
 	- Copy the Outline generating code from Padre::Document::Perl::Outline
 	  to PPIx::EditorTools::Outline (SZABGAB)
 
-0.11   2010.11.18
+0.11 2010.11.18
 	- Fixed RT #63107: Finding declared variables fragile and misses loop
 	  variables OVID++ (AZAWAWI)
 	- Moved to Dist::Zilla (AZAWAWI)
