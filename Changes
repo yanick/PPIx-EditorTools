@@ -1,6 +1,11 @@
 Revision history for PPIx-EditorTools
 
 {{$NEXT}}
+
+	- Copy the lexer code used for syntax highlighting in 
+	  Padre::Document::Perl::PPILexer to PPIx::EditorTools::Lexer (SZABGAB)
+
+0.12  2011.03.23
 	- Copy the Outline generating code from Padre::Document::Perl::Outline
 	  to PPIx::EditorTools::Outline (SZABGAB)
 
