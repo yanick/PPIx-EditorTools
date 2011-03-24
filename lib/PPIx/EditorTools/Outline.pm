@@ -1,6 +1,6 @@
 package PPIx::EditorTools::Outline;
 
-# ABSTRACT: PPI-based outline builder
+# ABSTRACT: Collect use pragmata, modules, subroutiones
 
 use 5.008;
 use strict;
