@@ -18,30 +18,27 @@ BEGIN {
 }
 
 my @cases = (
-	{   file => 't/outline/Foo.pm',
+	{   file     => 't/outline/Foo.pm',
 		expected => [
-			{
-			'modules' => [{
-				name => 'Method::Signatures',
-				line => 3,
-			},
-			],
-			'methods' => [
-				{
-					name => 'new',
-					line => 5,
-				},
-				{
-					name => 'hello',
-					line => 8,
-				}
-			],
-			'line'     => 1,
-			'name' => 'Foo',
+			{   'modules' => [
+					{   name => 'Method::Signatures',
+						line => 3,
+					},
+				],
+				'methods' => [
+					{   name => 'new',
+						line => 5,
+					},
+					{   name => 'hello',
+						line => 8,
+					}
+				],
+				'line' => 1,
+				'name' => 'Foo',
 			}
 		],
 	},
-	{   file => 't/outline/file1.pl',
+	{   file     => 't/outline/file1.pl',
 		expected => [
 			{   'methods' => [
 					{   'line' => 6,
@@ -69,16 +66,16 @@ my @cases = (
 use strict;
 END_CODE
 		expected => [
-			{ 'pragmata' => [
-				{ 'line' => 1,
-					name => 'strict',
-				},
+			{   'pragmata' => [
+					{   'line' => 1,
+						name   => 'strict',
+					},
 				],
-				'name'     => 'main',
+				'name' => 'main',
 			},
 		],
 	},
-	{   file => 't/outline/file2.pl',
+	{   file     => 't/outline/file2.pl',
 		expected => [
 			{   'methods' => [
 					{   'line' => 14,
@@ -117,7 +114,7 @@ use PPIx::EditorTools::Outline;
 
 foreach my $c (@cases) {
 	my $code = $c->{code};
-	if ($c->{file}) {
+	if ( $c->{file} ) {
 		open my $fh, '<', $c->{file} or die;
 		local $/ = undef;
 		$code = <$fh>;

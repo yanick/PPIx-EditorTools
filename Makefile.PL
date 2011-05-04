@@ -4,8 +4,10 @@
 # set our dependency on that.
 use 5.008005;
 use strict;
+
 #use lib 'privinc';
 use inc::Module::Install 1.00;
+
 #use POSIX qw(locale_h);
 
 
@@ -38,17 +40,17 @@ requires 'perl' => '5.008005';
 
 # General dependencies
 requires 'Carp';
-requires 'Class::XSAccessor'               => '1.02';
+requires 'Class::XSAccessor' => '1.02';
 requires 'File::Spec';
 requires 'File::Basename';
-requires 'PPI'                             => '1.203';
-requires 'PPI::Find'                       => '0';
-test_requires 'File::Find'                 => '0';
-test_requires 'File::Temp'                 => '0';
-test_requires 'Test::More'                 => '0.88';
-test_requires 'Test::Most'                 => '0';
-test_requires 'Test::Differences'          => '0';
-test_requires 'Test::NoWarnings'           => '0.084';
+requires 'PPI'                    => '1.203';
+requires 'PPI::Find'              => '0';
+test_requires 'File::Find'        => '0';
+test_requires 'File::Temp'        => '0';
+test_requires 'Test::More'        => '0.88';
+test_requires 'Test::Most'        => '0';
+test_requires 'Test::Differences' => '0';
+test_requires 'Test::NoWarnings'  => '0.084';
 
 no_index 'directory' => qw{ t xt eg share inc privinc };
 homepage 'http://padre.perlide.org/';
