@@ -18,6 +18,29 @@ BEGIN {
 }
 
 my @cases = (
+	{   file => 't/outline/Foo.pm',
+		expected => [
+			{
+			'modules' => [{
+				name => 'Method::Signatures',
+				line => 3,
+			},
+			],
+			'methods' => [
+				{
+					name => 'new',
+					line => 5,
+				},
+				{
+					name => 'hello',
+					line => 8,
+				}
+			],
+			'line'     => 1,
+			'name' => 'Foo',
+			}
+		],
+	},
 	{   file => 't/outline/file1.pl',
 		expected => [
 			{   'methods' => [
@@ -102,6 +125,6 @@ foreach my $c (@cases) {
 	my $outline = PPIx::EditorTools::Outline->new->find( code => $code );
 
 	#diag explain $outline;
-	is_deeply $outline, $c->{expected};
+	is_deeply $outline, $c->{expected} or diag explain $outline;
 }
 
