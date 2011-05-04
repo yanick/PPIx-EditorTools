@@ -18,6 +18,8 @@ use Carp;
 use File::Spec;
 use File::Basename;
 
+our $VERSION = '0.13';
+
 =pod
 
 =head1 SYNOPSIS

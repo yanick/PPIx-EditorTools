@@ -7,6 +7,8 @@ use strict;
 use warnings;
 use Carp;
 
+our $VERSION = '0.13';
+
 =pod
 
 =head1 SYNOPSIS
