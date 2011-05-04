@@ -18,16 +18,7 @@ BEGIN {
 }
 
 my @cases = (
-	{   code => <<'END_CODE',
-use strict; use warnings;
-use Abc;
-
-my $global = 42;
-
-sub qwer {
-}
-
-END_CODE
+	{   file => 't/outline/file1.pl',
 		expected => [
 			{   'methods' => [
 					{   'line' => 6,
@@ -52,37 +43,19 @@ END_CODE
 		],
 	},
 	{   code => <<'END_CODE',
-#!/usr/bin/perl
-
-use 5.008;
 use strict;
-use autodie;
-use warnings FATAL => 'all';
-
-use lib ('/opt/perl5/lib');
-
-my $global = 42;
-
-print "start";
-
-sub abc {
-   print 1;
-
-   my $private = 42;
-
-   sub def {
-   }
-   print 2;
-}
-
-print "ok";
-
-sub xyz { }
-
-print "end";
-
 END_CODE
-
+		expected => [
+			{ 'pragmata' => [
+				{ 'line' => 1,
+					name => 'strict',
+				},
+				],
+				'name'     => 'main',
+			},
+		],
+	},
+	{   file => 't/outline/file2.pl',
 		expected => [
 			{   'methods' => [
 					{   'line' => 14,
@@ -120,7 +93,13 @@ plan tests => @cases * 1;
 use PPIx::EditorTools::Outline;
 
 foreach my $c (@cases) {
-	my $outline = PPIx::EditorTools::Outline->new->find( code => $c->{code} );
+	my $code = $c->{code};
+	if ($c->{file}) {
+		open my $fh, '<', $c->{file} or die;
+		local $/ = undef;
+		$code = <$fh>;
+	}
+	my $outline = PPIx::EditorTools::Outline->new->find( code => $code );
 
 	#diag explain $outline;
 	is_deeply $outline, $c->{expected};
