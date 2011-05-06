@@ -9,6 +9,7 @@ BEGIN {
 use Test::More;
 use Test::Differences;
 use PPI;
+use PPIx::EditorTools::Outline;
 
 BEGIN {
 	if ( $PPI::VERSION =~ /_/ ) {
@@ -200,8 +201,6 @@ push @cases, (
 );
 
 plan tests => @cases * 1;
-
-use PPIx::EditorTools::Outline;
 
 foreach my $c (@cases) {
 	my $code = $c->{code};
