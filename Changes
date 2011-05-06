@@ -3,7 +3,11 @@ Revision history for PPIx-EditorTools
 {{$NEXT}}
 
 0.15
-    - Parse Moose files as well (BOWTIE)
+	- Parse Moose files as well (BOWTIE)
+
+0.14 2011.05.04
+	- Move from Dist::Zilla to Module::Install
+	  (-> LICENSE, META.json, README files removed, inc/ added)
 
 0.13 2011.03.24
 	- Copy the lexer code used for syntax highlighting in 
