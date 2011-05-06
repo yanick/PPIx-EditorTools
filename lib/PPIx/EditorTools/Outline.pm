@@ -1,6 +1,6 @@
 package PPIx::EditorTools::Outline;
 
-# ABSTRACT: Collect use pragmata, modules, subroutiones
+# ABSTRACT: Collect use pragmata, modules, subroutiones, methods, attributes
 
 use 5.008;
 use strict;
@@ -25,7 +25,7 @@ our $VERSION = '0.14';
 
 =head1 DESCRIPTION
 
-Return a list of pragmatas, modules, methods of a C<PPI::Document>.
+Return a list of pragmatas, modules, methods, attributes of a C<PPI::Document>.
 
 =head1 METHODS
 
@@ -46,7 +46,6 @@ Return a reference to a hash.
 
 =cut
 
-
 sub find {
 	my ( $self, %args ) = @_;
 	$self->process_doc(%args);
@@ -58,6 +57,8 @@ sub find {
 
 	# Search for interesting things
 	require PPI::Find;
+
+	# TODO things not very discriptive
 	my @things = PPI::Find->new(
 		sub {
 
@@ -114,7 +115,7 @@ sub find {
 
 			# Moose attribute declaration
 			if ( $node1->isa('PPI::Token::Word') && $node1->content eq 'has' ) {
-				push @{ $cur_pkg->{attributes} }, { name => $node2->content, line => $thing->location->[0] };
+				$self->_Moo_Attributes( $node2, $cur_pkg, $thing );
 				next;
 			}
 
@@ -130,12 +131,18 @@ sub find {
 		$ppi->find(
 			sub {
 				$_[1]->isa('PPI::Token::Word') or return 0;
-				$_[1]->content =~ /^(?:func|method)\z/ or return 0;
+				$_[1]->content =~ /^(?:func|method|before|after|around|override|augment|class|role)\z/ or return 0;
 				$_[1]->next_sibling->isa('PPI::Token::Whitespace') or return 0;
 				my $sib_content = $_[1]->next_sibling->next_sibling->content or return 0;
 
 				$sib_content =~ m/^\b(\w+)\b/;
 				return 0 unless defined $1;
+
+				# test for MooseX::Declare class, role
+				if ( $_[1]->content =~ m/(class|role)/ ) {
+					$self->_Moo_PkgName( $cur_pkg, $sib_content, $_[1] );
+					return 1; # break out so we don't write Packae name as method
+				}
 
 				push @{ $cur_pkg->{methods} }, { name => $1, line => $_[1]->line_number };
 
@@ -151,6 +158,47 @@ sub find {
 	push @outline, $cur_pkg;
 
 	return \@outline;
+}
+
+########
+# Composed Method, internal, Moose Attributes
+# cleans moose attributes up, and single lines them.
+# only runs if PPI finds has
+# prefix all vars with ma_ otherwise same name
+########
+sub _Moo_Attributes {
+	my ( $self, $ma_node2, $ma_cur_pkg, $ma_thing ) = @_;
+
+	# tidy up Moose attributes for Outline display
+	my $ma_has_att = $ma_node2->content;
+	my $space      = q{ };
+	$ma_has_att =~ s/^\[?(qw(\/|\())?$space?//;   # remove leading 'quote word'
+	$ma_has_att =~ s/(\/|\))?\]?$//;              # remove traling 'quote word'
+	$ma_has_att =~ s/(\'$space?)//g;              # remove Single-Quoted String Literals
+	$ma_has_att =~ s/($space?\,$space?)/$space/g; # remove commers add space
+	                                              # split mulitline attributes to one per line
+	my @ma_atts_found = split /$space/, $ma_has_att,;
+
+	foreach my $ma_att (@ma_atts_found) {
+
+		# add to outline
+		push @{ $ma_cur_pkg->{attributes} }, { name => $ma_att, line => $ma_thing->location->[0] };
+	}
+	return;
+}
+
+########
+# Composed Method, internal, Moose Pakage Name
+# write first Class or Role as Package Name if none
+# prefix all vars with mpn_ otherwise same name
+########
+sub _Moo_PkgName {
+	my ( $self, $mpn_cur_pkg, $mpn_sib_content, $mpn_ppi_tuple ) = @_;
+	if ( $mpn_cur_pkg->{name} ) { return 1; } # break if we have a pkg name
+	                                          # add to outline
+	$mpn_cur_pkg->{name} = $mpn_sib_content;            # class or role name
+	$mpn_cur_pkg->{line} = $mpn_ppi_tuple->line_number; # class or role location
+	return 1;
 }
 
 1;

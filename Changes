@@ -2,6 +2,9 @@ Revision history for PPIx-EditorTools
 
 {{$NEXT}}
 
+0.15
+    - Parse Moose files as well (BOWTIE)
+
 0.13 2011.03.24
 	- Copy the lexer code used for syntax highlighting in 
 	  Padre::Document::Perl::PPILexer to PPIx::EditorTools::Lexer (SZABGAB)
