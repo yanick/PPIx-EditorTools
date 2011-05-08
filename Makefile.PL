@@ -43,7 +43,7 @@ requires 'Carp';
 requires 'Class::XSAccessor' => '1.02';
 requires 'File::Spec';
 requires 'File::Basename';
-requires 'PPI'                    => '1.203';
+requires 'PPI'                    => '1.215';
 requires 'PPI::Find'              => '0';
 test_requires 'File::Find'        => '0';
 test_requires 'File::Temp'        => '0';
