@@ -5,14 +5,33 @@ use strict;
 BEGIN {
 	$^W = 1;
 }
-use Test::More tests => 34;
+use Test::More;
 use Test::Exception;
 
-require PPIx::EditorTools;
-my $pet_obj = new_ok('PPIx::EditorTools');
+my @classes = (
+	'PPIx::EditorTools',
+	'PPIx::EditorTools::FindUnmatchedBrace',
+	'PPIx::EditorTools::FindVariableDeclaration',
+	'PPIx::EditorTools::IntroduceTemporaryVariable',
+	'PPIx::EditorTools::RenamePackage',
+	'PPIx::EditorTools::RenamePackageFromPath',
+	'PPIx::EditorTools::RenameVariable',
+	'PPIx::EditorTools::FindUnmatchedBrace',
+	'PPIx::EditorTools::Outline',
+	'PPIx::EditorTools::Lexer',
+	'PPIx::EditorTools::ReturnObject',
+);
 
 my @subs =
 	qw( new code ppi process_doc find_unmatched_brace get_all_variable_declarations element_depth find_token_at_location find_variable_declaration );
+
+plan tests => 14 + @subs + 2* @classes;
+
+foreach my $class (@classes) {
+	require_ok($class);
+	my $test_object = new_ok($class);
+}
+
 use_ok( 'PPIx::EditorTools', @subs );
 
 foreach my $subs (@subs) {
@@ -28,25 +47,24 @@ dies_ok { PPIx::EditorTools->process_doc() } 'expecting PPIx::EditorTools->proce
 
 # check code to ppi
 my @test_files = (
-	{ filename => 't/outline/Foo.pm', },
-	{ filename => 't/outline/file1.pl', },
-	{ filename => 't/outline/file2.pl', },
-	{ filename => 't/outline/Mooclass.pm', },
-	{ filename => 't/outline/Moorole.pm', },
-	{ filename => 't/outline/Moofirst.pm', },
+	't/outline/Foo.pm',
+	't/outline/file1.pl',
+	't/outline/file2.pl',
+	't/outline/Mooclass.pm',
+	't/outline/Moorole.pm',
+	't/outline/Moofirst.pm',
 );
 my $obj = PPIx::EditorTools->new();
 $obj->ppi(undef);
 $obj->code(undef);
 foreach my $file (@test_files) {
-	my $code;
-	if ( $file->{filename} ) {
-		open my $file_handle, '<', $file->{filename} or die "Could not open '$file->{filename}' $!";
+	my $code = do {
+		open my $fh, '<', $file or die "Could not open '$file' $!";
 		local $/ = undef;
-		$code = <$file_handle>;
-	}
+		<$fh>;
+	};
 	ok( $obj->process_doc( code => $code ),
-		"process_doc(code) from $file->{filename}"
+		"process_doc(code) from $file"
 	);
 }
 
@@ -108,40 +126,4 @@ dies_ok { PPIx::EditorTools->element_depth() } 'expecting PPIx::EditorTools->ele
 dies_ok { PPIx::EditorTools->find_token_at_location() } 'expecting PPIx::EditorTools->find_token_at_location() to die';
 
 #dies_ok { PPIx::EditorTools->find_variable_declaration() } 'expecting PPIx::EditorTools->find_variable_declaration() to die';
-######
-# let's check our lib's are here.
-######
-my $test_object;
-require PPIx::EditorTools::FindUnmatchedBrace;
-$test_object = new_ok('PPIx::EditorTools::FindUnmatchedBrace');
 
-require PPIx::EditorTools::FindVariableDeclaration;
-$test_object = new_ok('PPIx::EditorTools::FindVariableDeclaration');
-
-require PPIx::EditorTools::IntroduceTemporaryVariable;
-$test_object = new_ok('PPIx::EditorTools::IntroduceTemporaryVariable');
-
-require PPIx::EditorTools::RenamePackage;
-$test_object = new_ok('PPIx::EditorTools::RenamePackage');
-
-require PPIx::EditorTools::RenamePackageFromPath;
-$test_object = new_ok('PPIx::EditorTools::RenamePackageFromPath');
-
-require PPIx::EditorTools::RenameVariable;
-$test_object = new_ok('PPIx::EditorTools::RenameVariable');
-
-require PPIx::EditorTools::FindUnmatchedBrace;
-$test_object = new_ok('PPIx::EditorTools::FindUnmatchedBrace');
-
-require PPIx::EditorTools::Outline;
-$test_object = new_ok('PPIx::EditorTools::Outline');
-
-require PPIx::EditorTools::Lexer;
-$test_object = new_ok('PPIx::EditorTools::Lexer');
-
-require PPIx::EditorTools::ReturnObject;
-$test_object = new_ok('PPIx::EditorTools::ReturnObject');
-
-done_testing();
-
-#done_testing($number_of_tests);
