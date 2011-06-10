@@ -25,7 +25,7 @@ my @classes = (
 my @subs =
 	qw( new code ppi process_doc find_unmatched_brace get_all_variable_declarations element_depth find_token_at_location find_variable_declaration );
 
-plan tests => 14 + @subs + 2* @classes;
+plan tests => 14 + @subs + 2 * @classes;
 
 foreach my $class (@classes) {
 	require_ok($class);
