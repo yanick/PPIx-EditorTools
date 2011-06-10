@@ -198,6 +198,42 @@ push @cases, (
 			}
 		]
 	},
+	{   file     => 't/outline/Moofirst.pm',
+		expected => [
+			{   'attributes' => [
+					{   'line' => 7,
+						'name' => 'balance'
+					},
+					{   'line' => 13,
+						'name' => 'overdraft'
+					},
+					{   'line' => 23,
+						'name' => 'name'
+					},
+					{   'line' => 25,
+						'name' => 'account'
+					}
+				],
+				'line'    => 3,
+				'methods' => [
+					{   'line' => 27,
+						'name' => '_build_overdraft'
+					}
+				],
+				'modules' => [
+					{   'line' => 1,
+						'name' => 'MooseX::Declare'
+					}
+				],
+				'name'     => 'Moofirst',
+				'pragmata' => [
+					{   'line' => 5,
+						'name' => 'version'
+					}
+				]
+			}
+		]
+	},
 );
 
 plan tests => @cases * 1;
