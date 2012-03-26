@@ -10,6 +10,9 @@ use Test::More;
 use Test::Differences;
 
 use PPI;
+use File::Temp qw(tempdir);
+
+my $tempdir = tempdir( CLEANUP => 1 );
 
 BEGIN {
 	if ( $PPI::VERSION =~ /_/ ) {
@@ -18,7 +21,7 @@ BEGIN {
 	}
 }
 
-plan tests => 9;
+plan tests => 17;
 
 use PPIx::EditorTools::RenameVariable;
 
@@ -78,6 +81,10 @@ eq_or_diff(
 	'replace scalar'
 );
 
+test_cli($code, "--RenameVariable --line 8 --column 12 --replacement shiny", $shiny_replacement, 'replace scalar on command line');
+
+
+
 eq_or_diff(
 	PPIx::EditorTools::RenameVariable->new->rename(
 		code        => $code,
@@ -88,6 +95,8 @@ eq_or_diff(
 	$shiny_replacement,
 	'replace scalar'
 );
+
+test_cli($code, "--RenameVariable --line 11 --column 9 --replacement shiny", $shiny_replacement, 'replace scalar on command line');
 
 my $stuff_replacement = <<'STUFF_REPLACEMENT';
 use MooseX::Declare;
@@ -120,6 +129,7 @@ eq_or_diff(
 	$stuff_replacement,
 	'replace hash'
 );
+test_cli($code, "--RenameVariable --line 15 --column 13 --replacement stuff", $stuff_replacement, 'replace hash on command line');
 
 my $munged = PPIx::EditorTools::RenameVariable->new->rename(
 	code        => $code,
@@ -158,6 +168,7 @@ eq_or_diff(
 	$xvar_replacement,
 	'camelCase xVar'
 );
+test_cli($code, "--RenameVariable --line 2 --column 8 --to-camel-case 1", $xvar_replacement, 'camelCase xVar on command line');
 
 $xvar_replacement =~ s/x_?var/XVar/gi; # yes, this is simple
 
@@ -201,4 +212,26 @@ eq_or_diff(
 	$yvar_replacement,
 	'from camelCase _some_variable (ucfirst)'
 );
+
+# exerimental test code for experimental command line tool
+sub test_cli {
+	my ($original, $params, $expected, $title) = @_;
+
+	my $file = "$tempdir/source.pl";
+
+	open my $out, '>', $file or die;
+	print $out $original;
+	close $out;
+
+	my $cmd = "$^X -Ilib script/ppix_editortools --inplace $params $file";
+	#diag $cmd;
+	is system($cmd), 0, 'system';
+
+	open my $in, '<', $file or die;
+	my $result = do {local $/ = undef; <$in>; };
+	close $in;
+
+	eq_or_diff($result, $expected, $title);
+}
+
 
