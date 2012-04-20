@@ -9,7 +9,7 @@ use Carp;
 
 use base 'PPIx::EditorTools';
 use Class::XSAccessor accessors => {};
-use Data::Printer { caller_info => 1, colored => 1, };
+
 use PPI;
 
 our $VERSION = '0.15_01';
