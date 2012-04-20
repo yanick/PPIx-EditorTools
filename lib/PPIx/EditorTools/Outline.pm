@@ -9,42 +9,10 @@ use Carp;
 
 use base 'PPIx::EditorTools';
 use Class::XSAccessor accessors => {};
-
+use Data::Printer { caller_info => 1, colored => 1, };
 use PPI;
 
-our $VERSION = '0.15';
-
-=pod
-
-=head1 SYNOPSIS
-
-  my $outline = PPIx::EditorTools::Outline->new->find(
-        code => "package TestPackage;\nsub x { 1;\n"
-      );
- print Dumper $outline;
-
-=head1 DESCRIPTION
-
-Return a list of pragmatas, modules, methods, attributes of a C<PPI::Document>.
-
-=head1 METHODS
-
-=over 4
-
-=item new()
-
-Constructor. Generally shouldn't be called with any arguments.
-
-=item find( ppi => PPI::Document $ppi )
-=item find( code => Str $code )
-
-Accepts either a C<PPI::Document> to process or a string containing
-the code (which will be converted into a C<PPI::Document>) to process.
-Return a reference to a hash.
-
-=back
-
-=cut
+our $VERSION = '0.15_01';
 
 sub find {
 	my ( $self, %args ) = @_;
@@ -169,20 +137,29 @@ sub find {
 sub _Moo_Attributes {
 	my ( $self, $ma_node2, $ma_cur_pkg, $ma_thing ) = @_;
 
-	# tidy up Moose attributes for Outline display
-	my $ma_has_att = $ma_node2->content;
-	my $space      = q{ };
-	$ma_has_att =~ s/^\[?(qw(\/|\())?$space?//;   # remove leading 'quote word'
-	$ma_has_att =~ s/(\/|\))?\]?$//;              # remove traling 'quote word'
-	$ma_has_att =~ s/(\'$space?)//g;              # remove Single-Quoted String Literals
-	$ma_has_att =~ s/($space?\,$space?)/$space/g; # remove commers add space
-	                                              # split mulitline attributes to one per line
-	my @ma_atts_found = split /$space/, $ma_has_att,;
+	my $line_num = $ma_thing->location->[0];
+	my $attrs = eval $ma_node2->content;
 
-	foreach my $ma_att (@ma_atts_found) {
+	# if eval() failed for whatever reason, default to original token
+	$attrs ||= $ma_node2->content;
 
-		# add to outline
-		push @{ $ma_cur_pkg->{attributes} }, { name => $ma_att, line => $ma_thing->location->[0] };
+	if ( ref $attrs eq 'ARRAY' ) {
+		map { 
+			push @{ $ma_cur_pkg->{attributes} }, 
+				{ 
+				name => $_, 
+				line => $line_num, 
+				} 
+			}
+			grep {defined} @{$attrs};
+
+	} else {
+
+		push @{ $ma_cur_pkg->{attributes} },
+			{
+			name => $attrs,
+			line => $line_num,
+			};
 	}
 	return;
 }
@@ -205,6 +182,62 @@ sub _Moo_PkgName {
 
 __END__
 
+
+
+=pod
+
+=head1 SYNOPSIS
+
+  my $outline = PPIx::EditorTools::Outline->new->find(
+        code => "package TestPackage;\nsub x { 1;\n"
+      );
+ print Dumper $outline;
+
+=head1 DESCRIPTION
+
+Return a list of pragmatas, modules, methods, attributes of a C<PPI::Document>.
+
+=head1 METHODS
+
+=over 4
+
+=item * new()
+
+Constructor. Generally shouldn't be called with any arguments.
+
+
+=item * find()
+
+	find( ppi => PPI::Document $ppi )
+or
+	find( code => Str $code )
+
+Accepts either a C<PPI::Document> to process or a string containing
+the code (which will be converted into a C<PPI::Document>) to process.
+Return a reference to a hash.
+
+=back
+
+=head2 Internal Methods
+
+=over 4
+
+=item * _Moo_Attributes
+
+=item * _Moo_PkgName
+
+=back
+
+=head1 AUTHORS
+
+Gabor Szabo E<lt>gabor@szabgab.comE<gt>
+
+=head2 CONTRIBUTORS
+
+Kevin Dawson E<lt>bowtie@cpan.orgE<gt>
+
+buff3r 
+
 =head1 SEE ALSO
 
 This class inherits from C<PPIx::EditorTools>.
@@ -212,8 +245,7 @@ Also see L<App::EditorTools>, L<Padre>, and L<PPI>.
 
 =cut
 
-# Copyright 2008-2011 The Padre development team as listed in Padre.pm.
+# Copyright 2008-2012 The Padre development team as listed in Padre.pm.
 # LICENSE
 # This program is free software; you can redistribute it and/or
 # modify it under the same terms as Perl 5 itself.
-

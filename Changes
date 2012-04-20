@@ -1,6 +1,7 @@
 Revision history for PPIx-EditorTools
 
-{{$NEXT}}
+0.15_01 2012.04.
+	- Add patches from #401 by buff3r++ (BOWTIE)
 
 0.15 2011.05.06
 	- Parse Moose files as well (BOWTIE)

@@ -8,6 +8,8 @@ class Mooclass {
 		( isa => 'Ref', is => 'rw' );
 
 	has qw(account) => ( is => 'rw', );
+	
+	has non_quoted_attr => ( is=> 'rw' ); 
 
 	method pub_sub {
 		return;

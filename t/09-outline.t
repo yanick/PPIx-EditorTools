@@ -123,25 +123,25 @@ push @cases, (
 				],
 				'methods' => [
 					{   'name' => 'pub_sub',
-						'line' => 12,
+						'line' => 14,
 					},
 					{   'name' => '_pri_sub',
-						'line' => 16,
+						'line' => 18,
 					},
 					{   'name' => 'mm_before',
-						'line' => 20
+						'line' => 22,
 					},
 					{   'name' => 'mm_after',
-						'line' => 24
+						'line' => 26,
 					},
 					{   'name' => 'mm_around',
-						'line' => 28
+						'line' => 30,
 					},
 					{   'name' => 'mm_override',
-						'line' => 32
+						'line' => 34,
 					},
 					{   'name' => 'mm_augment',
-						'line' => 36
+						'line' => 38,
 					},
 				],
 				'line'       => 3,
@@ -167,6 +167,9 @@ push @cases, (
 					},
 					{   'name' => 'account',
 						'line' => 10
+					},
+					{   'name' => 'non_quoted_attr',
+						'line' => 12
 					},
 				],
 			}
@@ -241,7 +244,7 @@ plan tests => @cases * 1;
 foreach my $c (@cases) {
 	my $code = $c->{code};
 	if ( $c->{file} ) {
-		open my $fh, '<', $c->{file} or die;
+		open my $fh, '<', $c->{file} or die ("couldn't read file: ",$c->{file}, ": $!"); 
 		local $/ = undef;
 		$code = <$fh>;
 	}
@@ -250,4 +253,3 @@ foreach my $c (@cases) {
 	#diag explain $outline;
 	is_deeply $outline, $c->{expected} or diag explain $outline;
 }
-
