@@ -350,6 +350,26 @@ __END__
 
 =pod
 
+=head1 AUTHORS
+
+Gabor Szabo E<lt>gabor@szabgab.comE<gt>
+
+=head2 CONTRIBUTORS
+
+ADAMK
+
+AZAWAWI
+
+BOWTIE
+
+buff3r
+
+MGRIMES
+
+PATRICKAS
+
+SMUELLER
+
 =head1 SEE ALSO
 
 C<PPIx::EditorTools::*>, L<Padre>, L<App::EditorTools>, L<Padre>, and L<PPI>.

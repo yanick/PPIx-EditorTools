@@ -69,6 +69,7 @@ sub find {
 						'Method::Signatures',
 						'MooseX::Declare',
 						'MooseX::Method::Signatures',
+						'Moose::Role',
 						'Moose',
 						);
 				}
