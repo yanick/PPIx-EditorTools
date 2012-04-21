@@ -104,9 +104,6 @@ sub find {
 				$_[1]->next_sibling->isa('PPI::Token::Whitespace') or return 0;
 				my $sib_content = $_[1]->next_sibling->next_sibling->content or return 0;
 
-				# $sib_content =~ m/^\b(\w+)\b/;
-				# return 0 unless defined $1;
-
 				my $name = eval $sib_content;
 
 				# if eval() failed for whatever reason, default to original trimmed original token
@@ -120,7 +117,6 @@ sub find {
 					return 1; # break out so we don't write Package name as method
 				}
 
-				# push @{ $cur_pkg->{methods} }, { name => $1, line => $_[1]->line_number };
 				push @{ $cur_pkg->{methods} }, { name => $name, line => $_[1]->line_number }; 
 
 				return 1;
@@ -239,7 +235,7 @@ Gabor Szabo E<lt>gabor@szabgab.comE<gt>
 
 Kevin Dawson E<lt>bowtie@cpan.orgE<gt>
 
-buff3r 
+buff3r E<lt>buff3r@E<gt>
 
 =head1 SEE ALSO
 
