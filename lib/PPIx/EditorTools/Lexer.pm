@@ -12,7 +12,7 @@ use Class::XSAccessor accessors => {};
 
 use PPI;
 
-our $VERSION = '0.15';
+our $VERSION = '0.15_02';
 
 =pod
 

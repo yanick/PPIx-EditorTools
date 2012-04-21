@@ -12,7 +12,7 @@ use Class::XSAccessor accessors => {};
 
 use PPI;
 
-our $VERSION = '0.15_01';
+our $VERSION = '0.15_02';
 
 sub find {
 	my ( $self, %args ) = @_;
@@ -68,7 +68,8 @@ sub find {
 						if grep { $thing->module eq $_ } (
 						'Method::Signatures',
 						'MooseX::Declare',
-						'MooseX::Method::Signatures'
+						'MooseX::Method::Signatures',
+						'Moose',
 						);
 				}
 			}
@@ -103,16 +104,24 @@ sub find {
 				$_[1]->next_sibling->isa('PPI::Token::Whitespace') or return 0;
 				my $sib_content = $_[1]->next_sibling->next_sibling->content or return 0;
 
-				$sib_content =~ m/^\b(\w+)\b/;
-				return 0 unless defined $1;
+				# $sib_content =~ m/^\b(\w+)\b/;
+				# return 0 unless defined $1;
+
+				my $name = eval $sib_content;
+
+				# if eval() failed for whatever reason, default to original trimmed original token
+				$name ||= ( $sib_content =~ m/^\b(\w+)\b/ )[0];
+
+				return 0 unless defined $name;
 
 				# test for MooseX::Declare class, role
 				if ( $_[1]->content =~ m/(class|role)/ ) {
 					$self->_Moo_PkgName( $cur_pkg, $sib_content, $_[1] );
-					return 1; # break out so we don't write Packae name as method
+					return 1; # break out so we don't write Package name as method
 				}
 
-				push @{ $cur_pkg->{methods} }, { name => $1, line => $_[1]->line_number };
+				# push @{ $cur_pkg->{methods} }, { name => $1, line => $_[1]->line_number };
+				push @{ $cur_pkg->{methods} }, { name => $name, line => $_[1]->line_number }; 
 
 				return 1;
 			}
@@ -138,19 +147,13 @@ sub _Moo_Attributes {
 	my ( $self, $ma_node2, $ma_cur_pkg, $ma_thing ) = @_;
 
 	my $line_num = $ma_thing->location->[0];
-	my $attrs = eval $ma_node2->content;
+	my $attrs    = eval $ma_node2->content;
 
 	# if eval() failed for whatever reason, default to original token
 	$attrs ||= $ma_node2->content;
 
 	if ( ref $attrs eq 'ARRAY' ) {
-		map { 
-			push @{ $ma_cur_pkg->{attributes} }, 
-				{ 
-				name => $_, 
-				line => $line_num, 
-				} 
-			}
+		map { push @{ $ma_cur_pkg->{attributes} }, { name => $_, line => $line_num, } }
 			grep {defined} @{$attrs};
 
 	} else {

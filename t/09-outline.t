@@ -175,6 +175,69 @@ push @cases, (
 			}
 		],
 	},
+
+	# can we do the same thing with vanilla Moose class definitions?
+	{   file     => 't/outline/MooclassVanilla.pm',
+		expected => [
+			{   'modules' => [
+					{   'name' => 'Moose',
+						'line' => 3,
+					},
+				],
+				'methods' => [
+					{   'name' => 'pub_sub',
+						'line' => 13,
+					},
+					{   'name' => '_pri_sub',
+						'line' => 17,
+					},
+					{   'name' => 'mm_before',
+						'line' => 21,
+					},
+					{   'name' => 'mm_after',
+						'line' => 25,
+					},
+					{   'name' => 'mm_around',
+						'line' => 29,
+					},
+					{   'name' => 'mm_override',
+						'line' => 33,
+					},
+					{   'name' => 'mm_augment',
+						'line' => 37,
+					},
+				],
+				'line'       => 1,
+				'name'       => 'Moose::Declarations::MethodModifiers::Vanilla',
+				'attributes' => [
+					{   'name' => 'moo_att',
+						'line' => 5,
+					},
+					{   'name' => 'label',
+						'line' => 7,
+					},
+					{   'name' => 'progress',
+						'line' => 7,
+					},
+					{   'name' => 'butWarn',
+						'line' => 7,
+					},
+					{   'name' => 'butTime',
+						'line' => 7,
+					},
+					{   'name' => 'start_stop',
+						'line' => 7,
+					},
+					{   'name' => 'account',
+						'line' => 9,
+					},
+					{   'name' => 'non_quoted_attr',
+						'line' => 11,
+					},
+				],
+			}
+		],
+	},
 	{   file     => 't/outline/Moorole.pm',
 		expected => [
 			{   'modules' => [
@@ -244,7 +307,7 @@ plan tests => @cases * 1;
 foreach my $c (@cases) {
 	my $code = $c->{code};
 	if ( $c->{file} ) {
-		open my $fh, '<', $c->{file} or die ("couldn't read file: ",$c->{file}, ": $!"); 
+		open my $fh, '<', $c->{file} or die( "couldn't read file: ", $c->{file}, ": $!" );
 		local $/ = undef;
 		$code = <$fh>;
 	}
