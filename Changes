@@ -1,6 +1,10 @@
 Revision history for PPIx-EditorTools
 
-0.15_02 2012.04.
+0.15_03 2012.07.07
+	- Add patches from #1435 inspired by dod++ (BOWTIE)
+	- Add additional tests for #1435 (BOWTIE)
+
+0.15_02 2012.06.08
 	- Add patches from #401 by buff3r++ (BOWTIE)
 	- Add Moose::Role support (BOWTIE)
 

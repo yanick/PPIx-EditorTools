@@ -45,6 +45,7 @@ requires 'File::Spec';
 requires 'File::Basename';
 requires 'PPI'                    => '1.215';
 requires 'PPI::Find'              => '0';
+requires 'Try::Tiny'              => '0.11';
 test_requires 'File::Find'        => '0';
 test_requires 'File::Temp'        => '0';
 test_requires 'Test::More'        => '0.88';

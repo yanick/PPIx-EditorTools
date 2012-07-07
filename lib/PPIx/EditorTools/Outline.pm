@@ -6,13 +6,13 @@ use 5.008;
 use strict;
 use warnings;
 use Carp;
-
+use Try::Tiny;
 use base 'PPIx::EditorTools';
 use Class::XSAccessor accessors => {};
 
 use PPI;
 
-our $VERSION = '0.15_02';
+our $VERSION = '0.15_03';
 
 sub find {
 	my ( $self, %args ) = @_;
@@ -81,10 +81,22 @@ sub find {
 			# last resort, let's analyse further down...
 			my $node1 = $thing->first_element;
 			my $node2 = $thing->child(2);
+
 			next unless defined $node2;
+
+			# Tests for has followed by new line
+			try {
+				if ( defined $node2->{content} ) {
+					if ( $node2->{content} =~ /\n/ ) {
+						next;
+					}
+				}
+			};
 
 			# Moose attribute declaration
 			if ( $node1->isa('PPI::Token::Word') && $node1->content eq 'has' ) {
+
+				# p $_[1]->next_sibling->isa('PPI::Token::Whitespace');
 				$self->_Moo_Attributes( $node2, $cur_pkg, $thing );
 				next;
 			}
@@ -118,7 +130,7 @@ sub find {
 					return 1; # break out so we don't write Package name as method
 				}
 
-				push @{ $cur_pkg->{methods} }, { name => $name, line => $_[1]->line_number }; 
+				push @{ $cur_pkg->{methods} }, { name => $name, line => $_[1]->line_number };
 
 				return 1;
 			}
@@ -144,7 +156,12 @@ sub _Moo_Attributes {
 	my ( $self, $ma_node2, $ma_cur_pkg, $ma_thing ) = @_;
 
 	my $line_num = $ma_thing->location->[0];
-	my $attrs    = eval $ma_node2->content;
+
+	if ( $ma_node2->content =~ /[\n|;]/ ) {
+		return;
+	}
+
+	my $attrs = eval $ma_node2->content;
 
 	# if eval() failed for whatever reason, default to original token
 	$attrs ||= $ma_node2->content;

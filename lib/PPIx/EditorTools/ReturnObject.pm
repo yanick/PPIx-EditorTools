@@ -7,7 +7,7 @@ use strict;
 use warnings;
 use Carp;
 
-our $VERSION = '0.15_02';
+our $VERSION = '0.15_03';
 
 =pod
 
