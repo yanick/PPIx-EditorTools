@@ -1,5 +1,8 @@
 Revision history for PPIx-EditorTools
 
+0.15_04 2012.07.11
+	- suppress warning Exiting eval via next (BOWTIE)
+	
 0.15_03 2012.07.07
 	- Add patches from #1435 inspired by dod++ (BOWTIE)
 	- Add additional tests for #1435 (BOWTIE)

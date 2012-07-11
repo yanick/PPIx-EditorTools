@@ -12,7 +12,7 @@ use Class::XSAccessor accessors => {};
 
 use PPI;
 
-our $VERSION = '0.15_03';
+our $VERSION = '0.15_04';
 
 sub find {
 	my ( $self, %args ) = @_;
@@ -86,6 +86,7 @@ sub find {
 
 			# Tests for has followed by new line
 			try {
+				no warnings 'exiting'; # suppress warning Exiting eval via next
 				if ( defined $node2->{content} ) {
 					if ( $node2->{content} =~ /\n/ ) {
 						next;

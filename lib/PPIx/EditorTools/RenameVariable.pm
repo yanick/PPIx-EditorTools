@@ -10,7 +10,7 @@ use Carp;
 use base 'PPIx::EditorTools';
 use Class::XSAccessor;
 
-our $VERSION = '0.15_03';
+our $VERSION = '0.15_04';
 
 =pod
 
