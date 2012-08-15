@@ -200,5 +200,7 @@ sub read_file {
 	my $file = shift;
 	open my $fh, '<', $file or die;
 	local $/ = undef;
-	return scalar <$fh>;
+	my $code = scalar <$fh>;
+	$code =~ s/\xD//g;  # remove carrige return
+	return $code;
 }
