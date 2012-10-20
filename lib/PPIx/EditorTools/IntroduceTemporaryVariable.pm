@@ -15,7 +15,7 @@ use Class::XSAccessor accessors => {
 	'location'       => 'location',
 };
 
-our $VERSION = '0.17';
+our $VERSION = '0.18';
 
 =pod
 

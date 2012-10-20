@@ -18,7 +18,7 @@ use Carp;
 use File::Spec;
 use File::Basename;
 
-our $VERSION = '0.17';
+our $VERSION = '0.18';
 
 =pod
 
