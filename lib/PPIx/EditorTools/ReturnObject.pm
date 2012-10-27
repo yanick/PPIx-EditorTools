@@ -11,6 +11,10 @@ our $VERSION = '0.18';
 
 =pod
 
+=head1 NAME
+
+PPIx::EditorTools::ReturnObject - Simple object to return values from PPIx::EditorTools
+
 =head1 SYNOPSIS
 
   my $brace = PPIx::EditorTools::FindUnmatchedBrace->new->find(

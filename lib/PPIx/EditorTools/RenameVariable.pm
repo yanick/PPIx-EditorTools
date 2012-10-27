@@ -14,6 +14,10 @@ our $VERSION = '0.18';
 
 =pod
 
+=head1 NAME
+
+PPIx::EditorTools::RenameVariable - Lexically replace a variable name in Perl code
+
 =head1 SYNOPSIS
 
     my $munged = PPIx::EditorTools::RenameVariable->new->rename(
