@@ -22,6 +22,10 @@ our $VERSION = '0.18';
 
 =pod
 
+=head1 NAME
+
+PPIx::EditorTools::RenamePackageFromPath -Change the package name based on the files path
+
 =head1 SYNOPSIS
 
     my $munged = PPIx::EditorTools::RenamePackageFromPath->new->rename(

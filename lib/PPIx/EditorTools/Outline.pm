@@ -204,6 +204,10 @@ __END__
 
 =pod
 
+=head1 NAME
+
+PPIx::EditorTools::Outline - Collect use pragmata, modules, subroutiones, methods, attributes
+
 =head1 SYNOPSIS
 
   my $outline = PPIx::EditorTools::Outline->new->find(
