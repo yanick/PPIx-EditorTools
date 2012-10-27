@@ -18,6 +18,10 @@ our $VERSION = '0.18';
 
 =pod
 
+=head1 NAME
+
+PPIx::EditorTools::RenamePackage - Change the package name
+
 =head1 SYNOPSIS
 
     my $munged = PPIx::EditorTools::RenamePackage->new->rename(

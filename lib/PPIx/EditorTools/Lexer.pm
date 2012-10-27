@@ -16,6 +16,10 @@ our $VERSION = '0.18';
 
 =pod
 
+=head1 NAME
+
+PPIx::EditorTools::Lexer - Simple Lexer used for syntax highlighting
+
 =head1 SYNOPSIS
 
   PPIx::EditorTools::Lexer->new->lexer(

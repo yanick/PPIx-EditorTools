@@ -14,6 +14,10 @@ our $VERSION = '0.18';
 
 =pod
 
+=head1 NAME
+
+PPIx::EditorTools::FindVariableDeclaration - inds where a variable was declared using PPI
+
 =head1 SYNOPSIS
 
   # finds declaration of variable at cursor

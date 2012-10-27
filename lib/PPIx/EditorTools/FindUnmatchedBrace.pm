@@ -16,6 +16,10 @@ our $VERSION = '0.18';
 
 =pod
 
+=head1 NAME
+
+PPIx::EditorTools::FindUnmatchedBrace - PPI-based unmatched-brace-finder
+
 =head1 SYNOPSIS
 
   my $brace = PPIx::EditorTools::FindUnmatchedBrace->new->find(

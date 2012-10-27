@@ -19,6 +19,10 @@ our $VERSION = '0.18';
 
 =pod
 
+=head1 NAME
+
+PPIx::EditorTools::IntroduceTemporaryVariable - Introduces a temporary variable using PPI
+
 =head1 SYNOPSIS
 
     my $munged = PPIx::EditorTools::IntroduceTemporaryVariable->new->introduce(
