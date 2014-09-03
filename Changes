@@ -1,5 +1,8 @@
 Revision history for PPIx-EditorTools
 
+0.19 2014.09.03
+    - Update the link to the GitHub repository.
+
 0.18 2012.10.20
 	- Including Module::Install 1.06
 	  http://weblog.bulknews.net/post/33907905561/do-not-ship-modules-with-module-install-1-04

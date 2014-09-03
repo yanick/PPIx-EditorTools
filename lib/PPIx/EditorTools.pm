@@ -12,7 +12,7 @@ use Class::XSAccessor 1.02 constructor => 'new', accessors => {
 use PPI 1.203;
 use PPIx::EditorTools::ReturnObject;
 
-our $VERSION = '0.18';
+our $VERSION = '0.19';
 
 =pod
 
