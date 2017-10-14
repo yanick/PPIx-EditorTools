@@ -25,9 +25,13 @@ PPIx::EditorTools::RenamePackage - Change the package name
 =head1 SYNOPSIS
 
     my $munged = PPIx::EditorTools::RenamePackage->new->rename(
-        code        => "package TestPackage;\nuse strict;\nBEGIN {
-	$^W = 1;
-}\n1;\n",
+        code        => <<'END_CODE',
+            package TestPackage;
+            use strict;
+
+            BEGIN { $^W = 1; }
+            1;
+    END_CODE
         replacement => 'NewPackage'
     );
 
@@ -47,6 +51,7 @@ This module uses PPI to change the package name of code.
 Constructor. Generally shouldn't be called with any arguments.
 
 =item rename( ppi => PPI::Document $ppi, replacement => Str )
+
 =item rename( code => Str $code, replacement => Str )
 
 Accepts either a C<PPI::Document> to process or a string containing

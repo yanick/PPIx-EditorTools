@@ -51,6 +51,7 @@ the follow values:
 Constructor. Generally shouldn't be called with any arguments.
 
 =item find( ppi => PPI::Document $ppi, highlighter => sub {...} )
+
 =item find( code => Str $code, highlighter => sub ...{} )
 
 Accepts either a C<PPI::Document> to process or a string containing

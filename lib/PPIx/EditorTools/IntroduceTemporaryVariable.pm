@@ -52,6 +52,7 @@ selected expression.
 Constructor. Generally shouldn't be called with any arguments.
 
 =item find( ppi => PPI::Document, start_location => Int, end_location => Int, varname => Str )
+
 =item find( code => Str, start_location => Int, end_location => Int, varname => Str )
 
 Accepts either a C<PPI::Document> to process or a string containing

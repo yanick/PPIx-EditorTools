@@ -24,7 +24,7 @@ PPIx::EditorTools::FindVariableDeclaration - inds where a variable was declared 
   my $declaration = PPIx::EditorTools::FindVariableDeclaration->new->find(
     code =>
       "package TestPackage;\nuse strict;\nBEGIN {
-	$^W = 1;
+    \$^W = 1;
 }\nmy \$x=1;\n\$x++;"
     line => 5,
     column => 2,
@@ -44,6 +44,7 @@ Finds the location of a variable declaration.
 Constructor. Generally shouldn't be called with any arguments.
 
 =item find( ppi => PPI::Document $ppi, line => $line, column => $column )
+
 =item find( code => Str $code, line => $line, column => $column )
 
 Accepts either a C<PPI::Document> to process or a string containing
