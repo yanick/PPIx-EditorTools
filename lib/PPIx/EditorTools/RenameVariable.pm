@@ -43,8 +43,11 @@ This module will lexically replace a variable name.
 Constructor. Generally shouldn't be called with any arguments.
 
 =item rename( ppi => PPI::Document $ppi, line => Int, column => Int, replacement => Str )
+
 =item rename( code => Str $code, line => Int, column => Int, replacement => Str )
+
 =item rename( code => Str $code, line => Int, column => Int, to_camel_case => Bool, [ucfirst => Bool] )
+
 =item rename( code => Str $code, line => Int, column => Int, from_camel_case => Bool, [ucfirst => Bool] )
 
 Accepts either a C<PPI::Document> to process or a string containing

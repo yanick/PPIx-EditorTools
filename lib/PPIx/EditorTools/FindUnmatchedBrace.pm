@@ -40,6 +40,7 @@ Finds the location of unmatched braces in a C<PPI::Document>.
 Constructor. Generally shouldn't be called with any arguments.
 
 =item find( ppi => PPI::Document $ppi )
+
 =item find( code => Str $code )
 
 Accepts either a C<PPI::Document> to process or a string containing
