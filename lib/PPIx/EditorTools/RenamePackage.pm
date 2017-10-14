@@ -51,6 +51,7 @@ This module uses PPI to change the package name of code.
 Constructor. Generally shouldn't be called with any arguments.
 
 =item rename( ppi => PPI::Document $ppi, replacement => Str )
+
 =item rename( code => Str $code, replacement => Str )
 
 Accepts either a C<PPI::Document> to process or a string containing
