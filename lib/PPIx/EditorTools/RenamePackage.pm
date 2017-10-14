@@ -25,9 +25,13 @@ PPIx::EditorTools::RenamePackage - Change the package name
 =head1 SYNOPSIS
 
     my $munged = PPIx::EditorTools::RenamePackage->new->rename(
-        code        => "package TestPackage;\nuse strict;\nBEGIN {
-	$^W = 1;
-}\n1;\n",
+        code        => <<'END_CODE',
+            package TestPackage;
+            use strict;
+
+            BEGIN { $^W = 1; }
+            1;
+    END_CODE
         replacement => 'NewPackage'
     );
 
