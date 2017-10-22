@@ -90,7 +90,6 @@ sub find_unmatched_brace {
 # and line 6 col 7.
 sub get_all_variable_declarations {
 	my $document = shift;
-	my %vars;
 
 	my $declarations = $document->find(
 		sub {

@@ -99,7 +99,6 @@ sub rename {
 		$scope = $scope->parent;
 	}
 
-	my $token_str = $token->content;
 	my $varname   = $token->symbol;
 	if ( not defined $replacement ) {
 		if ( $args{from_camel_case} ) {
