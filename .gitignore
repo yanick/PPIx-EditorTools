@@ -8,3 +8,6 @@ inc/
 pm_to_blib
 *.swp
 PPIx-EditorTools*
+PPIx-*
+PPIX-*
+.envrc
