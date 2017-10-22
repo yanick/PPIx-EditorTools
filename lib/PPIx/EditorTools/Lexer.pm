@@ -68,7 +68,7 @@ sub lexer {
 
 	foreach my $t (@tokens) {
 
-		my ( $row, $rowchar, $col ) = @{ $t->location };
+		my ( $row, $rowchar ) = @{ $t->location };
 
 		my $css = class_to_css($t);
 

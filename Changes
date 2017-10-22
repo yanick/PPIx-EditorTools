@@ -3,6 +3,7 @@ Revision history for PPIx-EditorTools
 {{$NEXT}}
     - POD fixes.
     - maintainership passes to Yanick.
+    - remove unused variables.
 
 0.19 2014.09.03
     - Update the link to the GitHub repository.

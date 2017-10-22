@@ -88,7 +88,7 @@ sub element {
 }
 
 sub ppi {
-	my ( $self, $doc ) = @_;
+	my ( $self ) = @_;
 
 	# $self->{ppi} = $doc if $doc;    # TODO: and isa?
 
@@ -104,7 +104,7 @@ sub ppi {
 }
 
 sub code {
-	my ( $self, $doc ) = @_;
+	my ( $self ) = @_;
 
 	# $self->{code} = $doc if $doc;
 
