@@ -241,16 +241,6 @@ Return a reference to a hash.
 
 =back
 
-=head1 AUTHORS
-
-Gabor Szabo E<lt>gabor@szabgab.comE<gt>
-
-=head2 CONTRIBUTORS
-
-Kevin Dawson E<lt>bowtie@cpan.orgE<gt>
-
-buff3r E<lt>buff3r@E<gt>
-
 =head1 SEE ALSO
 
 This class inherits from C<PPIx::EditorTools>.
