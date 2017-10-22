@@ -1,5 +1,8 @@
 Revision history for PPIx-EditorTools
 
+{{$NEXT}}
+    - POD fixes.
+
 0.19 2014.09.03
     - Update the link to the GitHub repository.
 
