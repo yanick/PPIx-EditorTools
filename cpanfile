@@ -11,7 +11,6 @@ requires "strict" => "0";
 requires "warnings" => "0";
 
 on 'test' => sub {
-  requires "Abc" => "0";
   requires "Class::Accessor" => "0";
   requires "ExtUtils::MakeMaker" => "0";
   requires "File::Spec" => "0";
