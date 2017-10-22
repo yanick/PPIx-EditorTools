@@ -1,5 +1,4 @@
 package PPIx::EditorTools::IntroduceTemporaryVariable;
-
 # ABSTRACT: Introduces a temporary variable using PPI
 
 use 5.008;
@@ -14,14 +13,6 @@ use Class::XSAccessor accessors => {
 	'expression'     => 'expression',
 	'location'       => 'location',
 };
-
-our $VERSION = '0.18';
-
-=pod
-
-=head1 NAME
-
-PPIx::EditorTools::IntroduceTemporaryVariable - Introduces a temporary variable using PPI
 
 =head1 SYNOPSIS
 

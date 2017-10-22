@@ -1,5 +1,4 @@
 package PPIx::EditorTools::RenamePackage;
-
 # ABSTRACT: Change the package name
 
 use strict;
@@ -13,14 +12,6 @@ use Class::XSAccessor accessors => { 'replacement' => 'replacement' };
 
 use PPI;
 use Carp;
-
-our $VERSION = '0.18';
-
-=pod
-
-=head1 NAME
-
-PPIx::EditorTools::RenamePackage - Change the package name
 
 =head1 SYNOPSIS
 

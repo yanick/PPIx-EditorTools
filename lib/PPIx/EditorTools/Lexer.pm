@@ -1,5 +1,4 @@
 package PPIx::EditorTools::Lexer;
-
 # ABSTRACT: Simple Lexer used for syntax highlighting
 
 use 5.008;
@@ -11,14 +10,6 @@ use base 'PPIx::EditorTools';
 use Class::XSAccessor accessors => {};
 
 use PPI;
-
-our $VERSION = '0.18';
-
-=pod
-
-=head1 NAME
-
-PPIx::EditorTools::Lexer - Simple Lexer used for syntax highlighting
 
 =head1 SYNOPSIS
 

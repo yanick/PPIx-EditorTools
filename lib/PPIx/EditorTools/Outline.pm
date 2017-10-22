@@ -1,5 +1,4 @@
 package PPIx::EditorTools::Outline;
-
 # ABSTRACT: Collect use pragmata, modules, subroutiones, methods, attributes
 
 use 5.008;
@@ -11,8 +10,6 @@ use base 'PPIx::EditorTools';
 use Class::XSAccessor accessors => {};
 
 use PPI;
-
-our $VERSION = '0.18';
 
 sub find {
 	my ( $self, %args ) = @_;
@@ -201,12 +198,6 @@ sub _Moo_PkgName {
 __END__
 
 
-
-=pod
-
-=head1 NAME
-
-PPIx::EditorTools::Outline - Collect use pragmata, modules, subroutiones, methods, attributes
 
 =head1 SYNOPSIS
 

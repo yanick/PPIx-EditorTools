@@ -1,19 +1,10 @@
 package PPIx::EditorTools::ReturnObject;
-
 # ABSTRACT: Simple object to return values from PPIx::EditorTools
 
 use 5.008;
 use strict;
 use warnings;
 use Carp;
-
-our $VERSION = '0.18';
-
-=pod
-
-=head1 NAME
-
-PPIx::EditorTools::ReturnObject - Simple object to return values from PPIx::EditorTools
 
 =head1 SYNOPSIS
 
