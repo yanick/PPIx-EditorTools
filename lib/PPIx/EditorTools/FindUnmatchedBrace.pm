@@ -1,5 +1,4 @@
 package PPIx::EditorTools::FindUnmatchedBrace;
-
 # ABSTRACT: PPI-based unmatched-brace-finder
 
 use 5.008;
@@ -12,13 +11,7 @@ use Class::XSAccessor accessors => {};
 
 use PPI;
 
-our $VERSION = '0.18';
-
 =pod
-
-=head1 NAME
-
-PPIx::EditorTools::FindUnmatchedBrace - PPI-based unmatched-brace-finder
 
 =head1 SYNOPSIS
 

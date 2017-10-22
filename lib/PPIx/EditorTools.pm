@@ -1,4 +1,5 @@
 package PPIx::EditorTools;
+# ABSTRACT: Utility methods and base class for manipulating Perl via PPI
 
 use 5.008;
 use strict;
@@ -12,13 +13,7 @@ use Class::XSAccessor 1.02 constructor => 'new', accessors => {
 use PPI 1.203;
 use PPIx::EditorTools::ReturnObject;
 
-our $VERSION = '0.19';
-
 =pod
-
-=head1 NAME
-
-PPIx::EditorTools - Utility methods and base class for manipulating Perl via PPI
 
 =head1 SYNOPSIS
 
@@ -349,26 +344,6 @@ sub find_variable_declaration {
 __END__
 
 =pod
-
-=head1 AUTHORS
-
-Gabor Szabo E<lt>gabor@szabgab.comE<gt>
-
-=head2 CONTRIBUTORS
-
-ADAMK
-
-AZAWAWI
-
-BOWTIE
-
-buff3r
-
-MGRIMES
-
-PATRICKAS
-
-SMUELLER
 
 =head1 SEE ALSO
 

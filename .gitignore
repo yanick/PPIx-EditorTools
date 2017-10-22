@@ -2,10 +2,12 @@ META.yml
 MYMETA.json
 MYMETA.yml
 Makefile
-MANIFEST
 MANIFEST.bak
 blib/
 inc/
 pm_to_blib
 *.swp
 PPIx-EditorTools*
+PPIx-*
+PPIX-*
+.envrc
