@@ -2,7 +2,6 @@ META.yml
 MYMETA.json
 MYMETA.yml
 Makefile
-MANIFEST
 MANIFEST.bak
 blib/
 inc/
