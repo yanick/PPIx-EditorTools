@@ -8,6 +8,7 @@ Revision history for PPIx-EditorTools
   [ DOCUMENTATION ]
 
   [ ENHANCEMENTS ]
+  - remove spurious dependencies. (GH#8, Kent Fredic)
 
   [ NEW FEATURES ]
 
