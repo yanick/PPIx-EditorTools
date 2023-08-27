@@ -32,7 +32,7 @@ foreach my $class (@classes) {
 	my $test_object = new_ok($class);
 }
 
-use_ok( 'PPIx::EditorTools', @subs );
+use_ok( 'PPIx::EditorTools' );
 
 foreach my $subs (@subs) {
 	can_ok( 'PPIx::EditorTools', $subs );
